@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram id="">
+  <shapes>
+    <Note id="1" x="51" y="9" width="203" height="-1" text="Heartbeat periodic message exchange between the system monitor and process being observed. Heartbeat emitter is the observed process. It generates a pulse according to the heartbeat rate. Pulse is encapsulated in the heartbeat message and sent to heartbeat monitor." />
+    <Component id="2" x="620" y="198" width="127" height="-1" text="Heartbeat Receiver" />
+    <Component id="3" x="365" y="197" width="116" height="-1" text="Heartbeat Emitter" />
+    <Goal id="4" x="626" y="40" width="111" height="-1" text="Availability Goal" />
+    <Tactic id="5" x="514" y="113" width="85" height="-1" text="Heartbeat Tactic" />
+    <Goal id="6" x="385" y="38" width="107" height="-1" text="Reliability Goal" />
+    <Rationale id="7" x="303" y="122" width="80" height="-1" text="Rationale" />
+    <Requirement id="8" x="772" y="113" width="95" height="-1" text="Requirement (FR or NFR)" />
+    <Message id="9" x="79" y="196" width="118" height="-1" text="Heartbeat Message" />
+    <Parameter id="10" x="378" y="320" width="90" height="-1" text="Heartbeat Rate" />
+    <Component id="11" x="638" y="320" width="89" height="-1" text="Fault Monitor" />
+    <Attribute id="12" x="944" y="318" width="110" height="-1" text="Checking Interval" />
+    <Attribute id="13" x="942" y="198" width="109" height="-1" text="Acceptable Silence" />
+    <Note id="14" x="905" y="10" width="153" height="-1" text="Heartbeat monitor listens for heartbeat. If a heartbeat is not received within the acceptable silence threshold, the remediation logic is initiated." />
+  </shapes>
+  <connections>
+    <DashedConnection from="1" to="7" text="" />
+    <Mapping from="2" to="5" text="«receives heartbeat»" />
+    <Mapping from="3" to="5" text="«emits heartbeat»" />
+    <Dependency from="3" to="2" text="«sends pulse»" />
+    <Mapping from="5" to="6" text="«helps»" />
+    <Mapping from="5" to="4" text="«helps»" />
+    <Mapping from="5" to="8" text="«satisfies»" />
+    <Mapping from="7" to="5" text="«justifies»" />
+    <Aggregation from="9" to="3" text="«encapsulates&#xD;&#xA;hearbeat»" />
+    <Aggregation from="10" to="3" text="«regulates heartbeat»" />
+    <Aggregation from="11" to="2" text="«monitors faults»" />
+    <Aggregation from="12" to="2" text="«sets&#xD;&#xA;checking&#xD;&#xA;interval»" />
+    <Aggregation from="13" to="2" text="«sets&#xD;&#xA;wellness&#xD;&#xA;interval»" />
+    <DashedConnection from="14" to="2" text="" />
+  </connections>
+</diagram>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            description="Archie Commands"
+            id="archie.commands.category"
+            name="Archie">
+      </category>
+      <command
+            defaultHandler="archie.handlers.CreateNewTimHandler"
+            id="archie.commands.newTim"
+            name="Create New TIM">
+      </command>
+      <command
+            defaultHandler="archie.handlers.OpenAutoDetectHandler"
+            id="archie.commands.autoDetect"
+            name="Open Automatic Detection View">
+      </command>
+      <command
+            defaultHandler="archie.handlers.OpenPanoramicTrace"
+            id="archie.commands.panoramicTrace"
+            name="Panoramic Trace">
+      </command>
+      <command
+            defaultHandler="archie.handlers.OpenGraphViewHandler"
+            id="archie.commands.openGraphView"
+            name="Open Draw Me a Picture View">
+      </command>
+      <command
+            defaultHandler="archie.handlers.ToggleMonitoringHandler"
+            id="archie.commands.monitoring"
+            name="Toggle Monitoring">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu?after=help">
+         <menu
+               id="archie.menus.ArchieMenu"
+               label="Archie"
+               mnemonic="i">
+            <command
+                  commandId="archie.commands.newTim"
+                  icon="resources/icons/timeditor.png"
+                  label="Traceability Pattern"
+                  style="push"
+                  tooltip="Creates a new TIM file and opens the TIM editor">
+            </command>
+            <command
+                  commandId="archie.commands.autoDetect"
+                  icon="resources/icons/search.png"
+                  label="Automatic Detection"
+                  mnemonic="D"
+                  style="push"
+                  tooltip="Open the automatic detection view.">
+            </command>
+            <command
+                  commandId="archie.commands.monitoring"
+                  icon="resources/icons/monitoring.png"
+                  label="Toggle Monitoring"
+                  style="toggle"
+                  tooltip="Toggle monitoring on or off">
+            </command>
+            <command
+                  commandId="archie.commands.panoramicTrace"
+                  icon="resources/icons/trace.png"
+                  label="Panoramic Trace"
+                  style="push"
+                  tooltip="Open Panoramic Trace View">
+            </command>
+            <command
+                  commandId="archie.commands.openGraphView"
+                  icon="resources/icons/graph.png"
+                  label="Draw Me a Picture"
+                  style="push"
+                  tooltip="Opens the view where you can draw graph representations of your projects">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="archie.editor.TimEditor"
+            contributorClass="archie.editor.TimEditorActionBarContributor"
+            default="true"
+            extensions="tim"
+            icon="resources/icons/timeditor.png"
+            id="archie.editors.TimEditor"
+            name="Traceability Information Model Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup></startup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="archie.wizards"
+            name="Archie">
+      </category>
+      <wizard
+            class="archie.wizards.newtim.NewTimWizard"
+            icon="resources/icons/timeditor.png"
+            id="archie.wizards.newTimWizard"
+            name="Traceability Information Model">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+         <category
+            name="Archie"
+            id="archie.views">
+      </category>
+      <view
+            category="archie.views"
+            class="archie.views.AutoDetectView"
+            icon="resources/icons/search.png"
+            id="archie.views.autoDetect"
+            name="Automatic Detection"
+            restorable="true">
+      </view>
+      <view
+            category="archie.views"
+            class="archie.views.GraphView"
+            icon="resources/icons/graph.png"
+            id="archie.views.graphView"
+            name="Draw Me a Picture"
+            restorable="true">
+      </view>
+      <view
+            category="archie.views"
+            class="archie.views.PanoramicTraceView"
+            icon="resources/icons/trace.png"
+            id="archie.views.panoramicTrace"
+            name="Panoramic Trace"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         id="archie.LinkedToTimWarning"
+         name="Warnings: Accepted Source File(s) Modified"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   <extension
+         id="archie.TermsTextMarker"
+         name="Indicator Terms"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
+      <super
+            type="org.eclipse.core.resources.marker">
+      </super>
+      <persistent
+            value="false">
+      </persistent>
+   </extension>
+   <extension
+         id="archie.indicatorTermAnnotation"
+         point="org.eclipse.ui.editors.markerAnnotationSpecification">
+      <specification
+            annotationType="archie.indicatorTermAnnotation"
+            colorPreferenceKey="clcolor"
+            colorPreferenceValue="162,232,0"
+            contributesToHeader="true"
+            highlightPreferenceKey="clhighlight"
+            highlightPreferenceValue="true"
+            icon="/resources/icons/timeditor.png"
+            label="Indicator Term"
+            overviewRulerPreferenceKey="clruler"
+            overviewRulerPreferenceValue="true"
+            textPreferenceKey="cltext"
+            textPreferenceValue="true"
+            textStylePreferenceKey="clstyle"
+            textStylePreferenceValue="BOX"
+            verticalRulerPreferenceKey="clvertical"
+            verticalRulerPreferenceValue="true">
+      </specification>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerSeverity="0"
+            markerType="archie.TermsTextMarker"
+            name="archie.indicatorTermAnnotation"
+            super="org.eclipse.ui.workbench.texteditor.info">
+      </type>
+   </extension>
+
+</plugin>
