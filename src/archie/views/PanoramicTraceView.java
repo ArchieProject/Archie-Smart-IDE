@@ -59,9 +59,6 @@ import archie.views.ptrace.internals.PanoramicTracer;
  * 
  * A class that defines the UI for the panoramic trace view.
  *******************************************************/
-/*******************************************************
- * 
- *******************************************************/
 public final class PanoramicTraceView extends ViewPart
 {
 
