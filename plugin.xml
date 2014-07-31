@@ -199,5 +199,21 @@
             super="org.eclipse.ui.workbench.texteditor.info">
       </type>
    </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="archie.objectContribution.compilationUnit"
+            nameFilter="*.java"
+            objectClass="org.eclipse.jdt.core.ICompilationUnit">
+         <action
+               class="archie.handlers.LinkToTIMActionHandler"
+               icon="resources/icons/timeditor.png"
+               id="archie.actions.linkToTIM"
+               label="Link To TIM"
+               tooltip="Link To Highlighted Node in The TIM">
+         </action>
+      </objectContribution>
+   </extension>
 
 </plugin>
