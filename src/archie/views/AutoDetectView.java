@@ -66,10 +66,10 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import archie.editor.commands.AddCodeElementAction;
 import archie.globals.ArchieSettings;
 import archie.model.Tim;
 import archie.monitoring.MonitoringManager;
+import archie.timstorage.LinkToTim;
 import archie.timstorage.TimsManager;
 import archie.utils.EclipsePlatformUtils;
 import archie.views.autodetect.internals.AcceptedListManager;
@@ -1088,33 +1088,11 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 					{
 						if (sel instanceof TreeFileItem)
 						{
-							try
-							{
-								// Get the path to the file
-								String path = ((TreeFileItem) sel).getAbsolutePath();
-
-								// Create the link
-								AddCodeElementAction act = AddCodeElementAction.getInstance();
-								act.createLink(new File(path));
-							}
-							catch (IllegalArgumentException e)
-							{
-								EclipsePlatformUtils.showErrorMessage("Error", "No item is selected to link!");
-							}
-							catch (NullPointerException e)
-							{
-								EclipsePlatformUtils.showErrorMessage("Error", "Could not find an active TIM editor!");
-							}
-							catch (ClassCastException e)
-							{
-								EclipsePlatformUtils.showErrorMessage("Error",
-										"Could not find an active TIM editor or no node is highlighted!");
-							}
-							catch (IllegalStateException e)
-							{
-								EclipsePlatformUtils.showErrorMessage("Error",
-										"You can't link a source file to a TIM in a different project!");
-							}
+							// Get the path to the file
+							String path = ((TreeFileItem) sel).getAbsolutePath();
+							
+							// Create the link
+							LinkToTim.linkToActiveTIM(path);
 						}
 					}
 				}
