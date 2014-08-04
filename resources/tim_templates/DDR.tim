@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram id="e7b862d1-16f1-44c4-a254-71a6ddd91483">
+  <shapes>
+    <tactic id="2" x="446" y="132" width="146" height="-1" text="Data Distribution And Replication" />
+    <goal id="3" x="328" y="33" width="110" height="-1" text="Availability" />
+    <goal id="4" x="584" y="35" width="123" height="-1" text="Fault tolerance" />
+    <component id="5" x="115" y="294" width="148" height="-1" text="Virtual Nodes" />
+    <component id="6" x="302" y="295" width="187" height="-1" text="Partitioner" />
+    <component id="7" x="544" y="295" width="173" height="-1" text="Replication Strategy" />
+    <component id="8" x="823" y="292" width="160" height="-1" text="Snitches" />
+    <note id="9" x="16" y="162" width="308" height="-1" text="Assign data ownership to physical machines" />
+    <note id="10" x="138" y="414" width="276" height="-1" text="Partitions the data accross the cluster" />
+    <note id="11" x="514" y="415" width="334" height="-1" text="Determines the replicas for each row of data" />
+    <note id="12" x="660" y="132" width="386" height="-1" text="Define the topology information that the replications strategy uses to place replicas" />
+  </shapes>
+  <connections>
+    <mapping from="2" to="3" text="&lt;&lt;help&gt;&gt;" />
+    <mapping from="2" to="4" text="&lt;&lt;help&gt;&gt;" />
+    <aggregation from="5" to="2" text="" />
+    <dashedconnection from="5" to="9" text="" />
+    <aggregation from="6" to="2" text="" />
+    <dashedconnection from="6" to="10" text="" />
+    <aggregation from="7" to="2" text="" />
+    <dashedconnection from="7" to="11" text="" />
+    <aggregation from="8" to="2" text="" />
+    <dashedconnection from="12" to="8" text="" />
+  </connections>
+</diagram>

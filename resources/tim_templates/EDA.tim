@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram id="bc8e084f-81d9-4c9b-ae4a-a7c5ad5407ac">
+  <shapes>
+    <tactic id="2" x="406" y="121" width="279" height="-1" text="Event-Driven Architecture Pattern" />
+    <component id="3" x="181" y="246" width="175" height="-1" text="EventGenerator" />
+    <component id="4" x="444" y="243" width="170" height="-1" text="EventChannel" />
+    <component id="5" x="713" y="242" width="281" height="-1" text="EventProcessingEngine" />
+    <goal id="6" x="485" y="22" width="135" height="-1" text="Responsiveness" />
+  </shapes>
+  <connections>
+    <mapping from="2" to="6" text="&lt;&lt;help&gt;&gt;" />
+    <aggregation from="3" to="2" text="" />
+    <aggregation from="4" to="2" text="" />
+    <aggregation from="5" to="2" text="" />
+  </connections>
+</diagram>

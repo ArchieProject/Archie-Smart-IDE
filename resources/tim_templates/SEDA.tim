@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram id="dfc244a9-fbe9-4701-b1fc-f1403c473fc2">
+  <shapes>
+    <tactic id="2" x="518" y="175" width="184" height="-1" text="Stage Event-Driven Architecture" />
+    <goal id="3" x="243" y="54" width="119" height="-1" text="Massive concurrency" />
+    <goal id="4" x="443" y="45" width="180" height="-1" text="Simplify the construction of well-conditioned services" />
+    <goal id="5" x="670" y="58" width="110" height="-1" text="Introspection" />
+    <goal id="6" x="834" y="60" width="136" height="-1" text="Self-tuning resource management" />
+    <component id="7" x="552" y="280" width="118" height="-1" text="Stage" />
+    <component id="9" x="688" y="379" width="144" height="-1" text="Incoming Event Queue" />
+    <component id="10" x="377" y="382" width="223" height="-1" text="Thread Pool" />
+    <component id="11" x="46" y="349" width="278" height="-1" text="Controller" />
+    <component id="12" x="883" y="200" width="228" height="-1" text="Event Handler" />
+    <component id="13" x="363" y="541" width="200" height="-1" text="EventToThreadpoolDispatcher" />
+    <component id="14" x="726" y="546" width="256" height="-1" text="EventhandlerToThreadpoolDispatcher" />
+    <note id="15" x="64" y="522" width="277" height="-1" text="EventToThreadpoolDispatcher presents map between stage names and thread pool" />
+    <note id="16" x="351" y="645" width="275" height="-1" text="EventhandlerToThreadpoolDispatcher maps the stage to specific event handler" />
+  </shapes>
+  <connections>
+    <mapping from="2" to="3" text="&lt;&lt;help&gt;&gt;" />
+    <mapping from="2" to="4" text="&lt;&lt;help&gt;&gt;" />
+    <mapping from="2" to="5" text="&lt;&lt;help&gt;&gt;" />
+    <mapping from="2" to="6" text="&lt;&lt;help&gt;&gt;" />
+    <mapping from="7" to="2" text="compose" />
+    <aggregation from="9" to="7" text="" />
+    <mapping from="9" to="13" text="&lt;&lt;map&gt;&gt;" />
+    <aggregation from="9" to="10" text="" />
+    <aggregation from="10" to="7" text="" />
+    <mapping from="10" to="13" text="&lt;&lt;map&gt;&gt;" />
+    <mapping from="10" to="14" text="&lt;&lt;map&gt;&gt;" />
+    <aggregation from="11" to="7" text="" />
+    <dependency from="11" to="10" text="" />
+    <aggregation from="12" to="7" text="" />
+    <mapping from="12" to="14" text="&lt;&lt;map&gt;&gt;" />
+    <dashedconnection from="14" to="16" text="" />
+    <dashedconnection from="15" to="13" text="" />
+  </connections>
+</diagram>
