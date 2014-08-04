@@ -30,7 +30,7 @@ public class NewTimWizardTemplatesPage extends WizardPage
 	protected NewTimWizardTemplatesPage()
 	{
 		super(PAGE_NAME);
-		setTitle("Traceability Information Model Wizard (Step 1 of 3)");
+		setTitle("Traceability Information Model Wizard (Step 1 of 2)");
 		setDescription("Step 1: Pick template");
 		templates = TimTemplatesProvider.getInstance().getTemplates();
 	}
@@ -105,7 +105,7 @@ public class NewTimWizardTemplatesPage extends WizardPage
 
 		descriptionTextLabel = new Label(descriptionGroup, SWT.WRAP);
 		descriptionTextLabel
-				.setText("A subsystem with periodic message exchange between the system monitor and certain process.");
+				.setText("");
 		descriptionTextLabel.setBounds(20, 30, 660, 70);
 
 		setControl(topLevel);
