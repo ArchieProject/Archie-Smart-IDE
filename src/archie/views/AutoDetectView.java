@@ -119,6 +119,7 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 	private ProgressBar mProgressBar;
 	private Button mAddNewTIMButton;
 	private Button mRemoveTIMsButton;
+	private Button mSaveTIMAsTemplateButton;
 	private List mTIMsList;
 
 	// -- Menu Actions
@@ -160,6 +161,8 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 		this.mImageRegistry.registerImagePath("fileWarningIcon", "/resources/icons/file-warning.png");
 
 		this.mImageRegistry.registerImagePath("acceptIcon", "/resources/icons/accept.png");
+		
+		this.mImageRegistry.registerImagePath("templateIcon", "/resources/icons/template.png");
 
 		// ---------------------------------------------------------
 		// The sash vertical splitter sash container (two composites are laid
@@ -501,6 +504,13 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 		mRemoveTIMsButton.setLayoutData(gridData);
 		mRemoveTIMsButton.setToolTipText("Delete the selected TIM files.");
 
+		// Button to save a TIM as a template
+		mSaveTIMAsTemplateButton = new Button(timManagementGroup, SWT.NONE);
+		mSaveTIMAsTemplateButton.setImage(mImageRegistry.getImage("templateIcon"));
+		gridData = new GridData(GridData.FILL, GridData.FILL, false, false);
+		mSaveTIMAsTemplateButton.setLayoutData(gridData);
+		mSaveTIMAsTemplateButton.setToolTipText("Save the selected TIM as a user template file.");
+		
 		// The list of TIMs
 		mTIMsList = new List(timManagementGroup, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
