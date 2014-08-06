@@ -47,7 +47,7 @@ public final class ArchieSettings
 	private String mStopWordsPath;
 	private String mDatabaseFile;
 	private String mMonitoringFile;
-	
+	private String mUserTemplatesFolder;
 
 	/*******************************************************
 	 * Gets the singleton instance.
@@ -122,6 +122,18 @@ public final class ArchieSettings
 			System.err.println("Monitoring file read error.");
 			e.printStackTrace();
 		}
+
+		// Get the user templates path
+		try
+		{
+			URL path = FileLocator.resolve(this.getClass().getResource("/" + TIM_TEMPLATES_FOLDER + "/user/"));
+			mUserTemplatesFolder = path.getFile();
+		}
+		catch (IOException e)
+		{
+			System.err.println("User templates path error.");
+			e.printStackTrace();
+		}
 	}
 
 	/*******************************************************
@@ -143,7 +155,7 @@ public final class ArchieSettings
 	{
 		return mDatabaseFile;
 	}
-	
+
 	/*******************************************************
 	 * Gets the path of the engine's monitoring list file.
 	 * 
@@ -152,5 +164,16 @@ public final class ArchieSettings
 	public String getMonitoringListFilePath()
 	{
 		return mMonitoringFile;
+	}
+
+	/*******************************************************
+	 * Gets the path of the folder where the user-saved TIMs templates are
+	 * saved.
+	 * 
+	 * @return The path of the folder where the user templates are saved.
+	 *******************************************************/
+	public String getUserTemplatesFolderPath()
+	{
+		return mUserTemplatesFolder;
 	}
 }
