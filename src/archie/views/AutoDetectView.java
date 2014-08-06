@@ -84,6 +84,7 @@ import archie.views.autodetect.internals.TreeFileItem;
 import archie.views.autodetect.internals.TreeLabelProvider;
 import archie.views.autodetect.internals.TreeQualityItem;
 import archie.wizards.newtim.NewTimWizard;
+import archie.wizards.newtim.TimTemplateSaver;
 
 /*******************************************************
  * Defines the class for the Automatic Detection View
@@ -971,6 +972,30 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 			}
 		});
 
+		// The save as template.
+		mSaveTIMAsTemplateButton.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseDown(MouseEvent e)
+			{
+				// Is there EXACTLY ONE TIM selected?
+				int[] selection = mTIMsList.getSelectionIndices();
+				if (selection.length != 1)
+				{
+					// Give the user a message and return
+					EclipsePlatformUtils.showMessage("Save TIM as template",
+							"You must select EXACTLY ONE TIM file.");
+					return;
+				}
+				else
+				{
+						// The selected file.
+						String file = mTIMsList.getSelection()[0];
+						new TimTemplateSaver(file);
+				}
+			}
+		});
+		
 		// The double-click on a TIM file in the list.
 		mTIMsList.addMouseListener(new MouseAdapter()
 		{
