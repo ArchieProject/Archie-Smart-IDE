@@ -48,6 +48,7 @@ public final class ArchieSettings
 	private String mDatabaseFile;
 	private String mMonitoringFile;
 	private String mUserTemplatesFolder;
+	private String mUserTemplatesDBFile;
 
 	/*******************************************************
 	 * Gets the singleton instance.
@@ -123,15 +124,16 @@ public final class ArchieSettings
 			e.printStackTrace();
 		}
 
-		// Get the user templates path
+		// Get the user templates path and database file.
 		try
 		{
 			URL path = FileLocator.resolve(this.getClass().getResource("/" + TIM_TEMPLATES_FOLDER + "/user/"));
 			mUserTemplatesFolder = path.getFile();
+			mUserTemplatesDBFile = mUserTemplatesFolder + "/user_templates.dat";
 		}
 		catch (IOException e)
 		{
-			System.err.println("User templates path error.");
+			System.err.println("User templates path and DB file error.");
 			e.printStackTrace();
 		}
 	}
@@ -175,5 +177,13 @@ public final class ArchieSettings
 	public String getUserTemplatesFolderPath()
 	{
 		return mUserTemplatesFolder;
+	}
+	
+	/*******************************************************
+	 * @return The absolute path of the user templates database file.F
+	 *******************************************************/
+	public String getUserTemplatesDBFile()
+	{
+		return mUserTemplatesDBFile;
 	}
 }

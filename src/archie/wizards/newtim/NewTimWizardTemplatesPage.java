@@ -22,7 +22,8 @@ public class NewTimWizardTemplatesPage extends WizardPage
 {
 	public static final String PAGE_NAME = "NewTimWizardTemplatesPage";
 
-	Vector<TimTemplate> templates;
+	Vector<TimTemplate> systemTemplates;
+	Vector<TimTemplate> userTemplates;
 	Label descriptionTextLabel;
 	Group templatesGroup;
 	Composite previewImage;
@@ -32,7 +33,8 @@ public class NewTimWizardTemplatesPage extends WizardPage
 		super(PAGE_NAME);
 		setTitle("Traceability Information Model Wizard (Step 1 of 2)");
 		setDescription("Step 1: Pick template");
-		templates = TimTemplatesProvider.getInstance().getTemplates();
+		systemTemplates = TimTemplatesProvider.getInstance().getSystemTemplates();
+		userTemplates = TimTemplatesProvider.getInstance().getUserTemplates();
 	}
 
 	@Override
@@ -42,13 +44,13 @@ public class NewTimWizardTemplatesPage extends WizardPage
 		GridLayout topLevelLayout = new GridLayout(2, false);
 		topLevel.setLayout(topLevelLayout);
 
-		templatesGroup = new Group(topLevel, SWT.NONE);
+		templatesGroup = new Group(topLevel, SWT.V_SCROLL | SWT.H_SCROLL);
 		GridData templatesGridData = new GridData();
 		templatesGridData.widthHint = 200;
 		templatesGridData.heightHint = 330;
 		templatesGroup.setLayoutData(templatesGridData);
 		templatesGroup.setLayout(new GridLayout());
-		templatesGroup.setText("Template");
+		templatesGroup.setText("Templates");
 
 		SelectionListener listener = new SelectionListener()
 		{
@@ -67,13 +69,24 @@ public class NewTimWizardTemplatesPage extends WizardPage
 			}
 		};
 
-		for (TimTemplate template : templates)
+		// Load system templates
+		for (TimTemplate template : systemTemplates)
 		{
 			Button radio = new Button(templatesGroup, SWT.RADIO);
 			radio.setText(template.getName());
 			radio.setData(template);
 			radio.addSelectionListener(listener);
 		}
+		
+		// Load user templates
+		for (TimTemplate template : userTemplates)
+		{
+			Button radio = new Button(templatesGroup, SWT.RADIO);
+			radio.setText("User: " + template.getName());
+			radio.setData(template);
+			radio.addSelectionListener(listener);
+		}
+		
 		((Button) templatesGroup.getChildren()[0]).setSelection(true);
 
 		// preview

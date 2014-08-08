@@ -2,6 +2,7 @@ package archie.wizards.newtim;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
@@ -12,7 +13,10 @@ import archie.resourcesbinding.StaticResources;
 
 
 
-public class TimTemplate {
+public class TimTemplate implements Serializable {
+
+	private static final long serialVersionUID = -5501873374888647650L;
+	
 	private String name;
 	private String filename;
 	private String imageFilename;

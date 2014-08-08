@@ -11,6 +11,7 @@ import archie.javamodelbinding.JavaModelBinding;
 import archie.monitoring.MonitoringManager;
 import archie.resourcesbinding.ResourcesBinding;
 import archie.timstorage.TimsManager;
+import archie.wizards.newtim.TimTemplatesProvider;
 
 /**
  * [Singleton] Controls the plug-in life cycle; provides the Shell object that's
@@ -52,6 +53,7 @@ public class Activator extends AbstractUIPlugin implements IStartup
 		ResourcesBinding.getInstance().unbind();
 		JavaModelBinding.getInstance().unbind();
 		MonitoringManager.getIntance().saveToDatabase();
+		TimTemplatesProvider.getInstance().saveToDB();
 		super.stop(context);
 	}
 

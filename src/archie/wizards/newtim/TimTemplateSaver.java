@@ -84,7 +84,7 @@ public final class TimTemplateSaver
 		gridData = new GridData(SWT.FILL, SWT.FILL, false, false);
 		description.setLayoutData(gridData);
 
-		Text descriptionText = new Text(shell, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		final Text descriptionText = new Text(shell, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		descriptionText.setLayoutData(gridData);
 
@@ -120,7 +120,10 @@ public final class TimTemplateSaver
 				try
 				{
 					Files.copy(srcFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-					// No exception has been thrown? Then we're done.
+					// No exception has been thrown? 
+					// Add it to the templates provider list
+					TimTemplatesProvider.getInstance().addUserTemplate(templateName, descriptionText.getText());
+					// Then we're done.
 					// Dispose and return
 					shell.dispose();
 					return;
