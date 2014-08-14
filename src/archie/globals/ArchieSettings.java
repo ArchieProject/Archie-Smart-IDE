@@ -49,6 +49,7 @@ public final class ArchieSettings
 	private String mMonitoringFile;
 	private String mUserTemplatesFolder;
 	private String mUserTemplatesDBFile;
+	private String mHierarchyDBFile;
 
 	/*******************************************************
 	 * Gets the singleton instance.
@@ -136,6 +137,18 @@ public final class ArchieSettings
 			System.err.println("User templates path and DB file error.");
 			e.printStackTrace();
 		}
+
+		// Get the system architecture hierarchy database file.
+		try
+		{
+			URL path = FileLocator.resolve(this.getClass().getResource("/resources/engine/hierarchy.dat"));
+			mHierarchyDBFile = path.getFile();
+		}
+		catch (IOException e)
+		{
+			System.err.println("System architecture hierarchy database file error.");
+			e.printStackTrace();
+		}
 	}
 
 	/*******************************************************
@@ -178,12 +191,20 @@ public final class ArchieSettings
 	{
 		return mUserTemplatesFolder;
 	}
-	
+
 	/*******************************************************
-	 * @return The absolute path of the user templates database file.F
+	 * @return The absolute path of the user templates database file.
 	 *******************************************************/
 	public String getUserTemplatesDBFile()
 	{
 		return mUserTemplatesDBFile;
+	}
+	
+	/*******************************************************
+	 * @return The absolute path of the Hierarchy database file.
+	 *******************************************************/
+	public String getHierarchyDBFile()
+	{
+		return mHierarchyDBFile;
 	}
 }

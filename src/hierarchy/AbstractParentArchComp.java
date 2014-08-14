@@ -20,7 +20,7 @@ import java.util.TreeSet;
  * An abstract parent software architecture component. It contains the common
  * code for the components that can be parents.
  *******************************************************/
-class AbstractParentArchComp implements IParentArchitectureComponent
+abstract class AbstractParentArchComp implements IParentArchitectureComponent
 {
 	/*******************************************************
 	 * For Serialization.
