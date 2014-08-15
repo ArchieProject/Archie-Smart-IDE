@@ -138,15 +138,15 @@ public final class ArchieSettings
 			e.printStackTrace();
 		}
 
-		// Get the system architecture archie.hierarchy database file.
+		// Get the system architecture hierarchy database file.
 		try
 		{
-			URL path = FileLocator.resolve(this.getClass().getResource("/resources/engine/archie.hierarchy.dat"));
+			URL path = FileLocator.resolve(this.getClass().getResource("/resources/engine/hierarchy.dat"));
 			mHierarchyDBFile = path.getFile();
 		}
 		catch (IOException e)
 		{
-			System.err.println("System architecture archie.hierarchy database file error.");
+			System.err.println("System architecture hierarchy database file error.");
 			e.printStackTrace();
 		}
 	}
