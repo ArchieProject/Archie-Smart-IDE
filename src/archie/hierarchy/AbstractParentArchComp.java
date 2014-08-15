@@ -9,7 +9,7 @@
 
  **/
 
-package hierarchy;
+package archie.hierarchy;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -53,7 +53,7 @@ abstract class AbstractParentArchComp implements IParentArchitectureComponent
 
 	/*******************************************************
 	 * 
-	 * @see hierarchy.IArchitectureComponent#getName()
+	 * @see archie.hierarchy.IArchitectureComponent#getName()
 	 *******************************************************/
 	@Override
 	public String getName()
@@ -63,7 +63,7 @@ abstract class AbstractParentArchComp implements IParentArchitectureComponent
 
 	/*******************************************************
 	 * 
-	 * @see hierarchy.IParentArchitectureComponent#addChild(hierarchy.IChildArchitectureComponent)
+	 * @see archie.hierarchy.IParentArchitectureComponent#addChild(archie.hierarchy.IChildArchitectureComponent)
 	 *******************************************************/
 	@Override
 	public void addChild(IChildArchitectureComponent child)
@@ -73,7 +73,7 @@ abstract class AbstractParentArchComp implements IParentArchitectureComponent
 
 	/*******************************************************
 	 * 
-	 * @see hierarchy.IParentArchitectureComponent#removeChild(hierarchy.IChildArchitectureComponent)
+	 * @see archie.hierarchy.IParentArchitectureComponent#removeChild(archie.hierarchy.IChildArchitectureComponent)
 	 *******************************************************/
 	@Override
 	public void removeChild(IChildArchitectureComponent child)
@@ -83,7 +83,7 @@ abstract class AbstractParentArchComp implements IParentArchitectureComponent
 
 	/*******************************************************
 	 * 
-	 * @see hierarchy.IParentArchitectureComponent#iterator()
+	 * @see archie.hierarchy.IParentArchitectureComponent#iterator()
 	 *******************************************************/
 	@Override
 	public Iterator<IChildArchitectureComponent> iterator()
@@ -93,7 +93,7 @@ abstract class AbstractParentArchComp implements IParentArchitectureComponent
 
 	/*******************************************************
 	 * 
-	 * @see hierarchy.IParentArchitectureComponent#clearChildren()
+	 * @see archie.hierarchy.IParentArchitectureComponent#clearChildren()
 	 *******************************************************/
 	@Override
 	public void clearChildren()

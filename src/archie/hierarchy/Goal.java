@@ -9,12 +9,12 @@
 
  **/
 
-package hierarchy;
+package archie.hierarchy;
 
 
 /*******************************************************
  * Defines a system goal software architecture component. It can be a parent to
- * some other sub-goals in the system architecture hierarchy.
+ * some other sub-goals in the system architecture archie.hierarchy.
  * 
  * @author Ahmed Fakhry
  *******************************************************/

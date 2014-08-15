@@ -9,7 +9,7 @@
 
  **/
 
-package hierarchy;
+package archie.hierarchy;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,7 +51,7 @@ public final class ArchitectureComponentsManager
 		Map<String, SubGoal> mSubGoals = new HashMap<String, SubGoal>();
 		Map<String, Tactic> mTactics = new HashMap<String, Tactic>();
 
-		// Tests whether a hierarchy for the system has been defined and built.
+		// Tests whether a archie.hierarchy for the system has been defined and built.
 		boolean mIsBuilt = false;
 
 		/*******************************************************
@@ -86,7 +86,7 @@ public final class ArchitectureComponentsManager
 	}
 
 	/*******************************************************
-	 * @return Whether the hierarchy of the architecture goals has been built.
+	 * @return Whether the archie.hierarchy of the architecture goals has been built.
 	 *******************************************************/
 	public boolean isHierarchyBuilt()
 	{
@@ -276,7 +276,7 @@ public final class ArchitectureComponentsManager
 	}
 
 	/*******************************************************
-	 * Serializes and saves the stored system architecture hierarchy components
+	 * Serializes and saves the stored system architecture archie.hierarchy components
 	 * to the database.
 	 *******************************************************/
 	public void saveToDB()
@@ -293,14 +293,14 @@ public final class ArchitectureComponentsManager
 		}
 		catch (IOException e)
 		{
-			System.err.println("Failed to save system architecture hierarchy components to the database file!");
+			System.err.println("Failed to save system architecture archie.hierarchy components to the database file!");
 			e.printStackTrace();
 		}
 	}
 
 	/*******************************************************
 	 * Package-private: Will only be called by the UI. Sets the status of the
-	 * hierarchy to be built.
+	 * archie.hierarchy to be built.
 	 *******************************************************/
 	void setHierarchyBuilt()
 	{

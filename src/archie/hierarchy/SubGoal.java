@@ -9,7 +9,7 @@
 
  **/
 
-package hierarchy;
+package archie.hierarchy;
 
 /*******************************************************
  * Defines a sub-goal which can be a parent to a tactic and a child of a goal.

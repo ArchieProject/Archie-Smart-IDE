@@ -9,7 +9,7 @@
 
  **/
 
-package hierarchy;
+package archie.hierarchy;
 
 import java.util.Iterator;
 
@@ -20,7 +20,7 @@ import java.util.Iterator;
 interface IParentArchitectureComponent extends IArchitectureComponent, Iterable<IChildArchitectureComponent>
 {
 	/*******************************************************
-	 * Adds a child component to this component in the hierarchy.
+	 * Adds a child component to this component in the archie.hierarchy.
 	 * 
 	 * @param child
 	 *            The component to be added as a child.

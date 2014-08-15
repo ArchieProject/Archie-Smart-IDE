@@ -9,7 +9,7 @@
 
  **/
 
-package hierarchy;
+package archie.hierarchy;
 
 import java.io.Serializable;
 

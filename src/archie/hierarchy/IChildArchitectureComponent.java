@@ -9,7 +9,7 @@
 
  **/
 
-package hierarchy;
+package archie.hierarchy;
 
 /*******************************************************
  * Defines an interface for a component that can be added as a child component

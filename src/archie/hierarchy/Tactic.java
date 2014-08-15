@@ -9,7 +9,7 @@
 
  **/
 
-package hierarchy;
+package archie.hierarchy;
 
 /*******************************************************
  * Defines a leaf software architecture component. A tactic is used to achieve a
@@ -50,7 +50,7 @@ final class Tactic implements IChildArchitectureComponent, Comparable<Tactic>
 
 	/*******************************************************
 	 * 
-	 * @see hierarchy.IArchitectureComponent#getName()
+	 * @see archie.hierarchy.IArchitectureComponent#getName()
 	 *******************************************************/
 	@Override
 	public String getName()
