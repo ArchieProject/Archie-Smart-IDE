@@ -67,6 +67,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import archie.globals.ArchieSettings;
+import archie.hierarchy.ArchitectureHierarchyWizard;
 import archie.model.Tim;
 import archie.monitoring.MonitoringManager;
 import archie.timstorage.LinkToTim;
@@ -121,6 +122,7 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 	private Button mAddNewTIMButton;
 	private Button mRemoveTIMsButton;
 	private Button mSaveTIMAsTemplateButton;
+	private Button mArchitectureButton;
 	private List mTIMsList;
 
 	// -- Menu Actions
@@ -145,7 +147,7 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 	public void createPartControl(Composite parent)
 	{
 		// The image resource management code:
-		this.mImageRegistry = new SimpleImageRegistry(this, parent);
+		this.mImageRegistry = new SimpleImageRegistry(parent);
 
 		// The font registry
 		this.mFontRegistry = JFaceResources.getFontRegistry();
@@ -162,8 +164,10 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 		this.mImageRegistry.registerImagePath("fileWarningIcon", "/resources/icons/file-warning.png");
 
 		this.mImageRegistry.registerImagePath("acceptIcon", "/resources/icons/accept.png");
-		
+
 		this.mImageRegistry.registerImagePath("templateIcon", "/resources/icons/template.png");
+
+		this.mImageRegistry.registerImagePath("archIcon", "/resources/icons/architecture.png");
 
 		// ---------------------------------------------------------
 		// The sash vertical splitter sash container (two composites are laid
@@ -511,7 +515,15 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 		gridData = new GridData(GridData.FILL, GridData.FILL, false, false);
 		mSaveTIMAsTemplateButton.setLayoutData(gridData);
 		mSaveTIMAsTemplateButton.setToolTipText("Save the selected TIM as a user template file.");
-		
+
+		// The architecture visualization button.
+		mArchitectureButton = new Button(timManagementGroup, SWT.NONE);
+		mArchitectureButton.setImage(mImageRegistry.getImage("archIcon"));
+		gridData = new GridData(GridData.FILL, GridData.FILL, false, false);
+		mArchitectureButton.setLayoutData(gridData);
+		mArchitectureButton
+				.setToolTipText("Define System architecture componenets, their hierarchies, and visualize your architecture.");
+
 		// The list of TIMs
 		mTIMsList = new List(timManagementGroup, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
@@ -983,19 +995,29 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 				if (selection.length != 1)
 				{
 					// Give the user a message and return
-					EclipsePlatformUtils.showMessage("Save TIM as template",
-							"You must select EXACTLY ONE TIM file.");
+					EclipsePlatformUtils.showMessage("Save TIM as template", "You must select EXACTLY ONE TIM file.");
 					return;
 				}
 				else
 				{
-						// The selected file.
-						String file = mTIMsList.getSelection()[0];
-						new TimTemplateSaver(file);
+					// The selected file.
+					String file = mTIMsList.getSelection()[0];
+					new TimTemplateSaver(file);
 				}
 			}
 		});
 		
+		// The architecture visualization button.
+		mArchitectureButton.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseDown(MouseEvent e)
+			{
+				// Open the architecture hierarchy wizard for now.
+				new ArchitectureHierarchyWizard();
+			}
+		});
+
 		// The double-click on a TIM file in the list.
 		mTIMsList.addMouseListener(new MouseAdapter()
 		{
@@ -1125,7 +1147,7 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 						{
 							// Get the path to the file
 							String path = ((TreeFileItem) sel).getAbsolutePath();
-							
+
 							// Create the link
 							LinkToTim.linkToActiveTIM(path);
 						}
@@ -1204,7 +1226,7 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 				{
 					// Get the current line
 					String originalLine = lines.get(i);
-					
+
 					// Lower case line for comparisons.
 					String lowerCaseLine = originalLine.toLowerCase();
 
@@ -1220,20 +1242,25 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 
 						while (index != -1)
 						{
-							if(index != 0)
+							if (index != 0)
 							{
-								if(Character.isLowerCase(originalLine.charAt(index)) && originalLine.charAt(index - 1) != ' ')
+								if (Character.isLowerCase(originalLine.charAt(index))
+										&& originalLine.charAt(index - 1) != ' ')
 								{
-									// We do not highlight a fake term, for example "keeping", "ping" here is a
-									// fake term. How do we know? we assume this naming convention, that is, if "ping" was actually
-									// meant, it would have been written as "Ping". (camelCase).
-									
+									// We do not highlight a fake term, for
+									// example "keeping", "ping" here is a
+									// fake term. How do we know? we assume this
+									// naming convention, that is, if "ping" was
+									// actually
+									// meant, it would have been written as
+									// "Ping". (camelCase).
+
 									// Skip and go next
 									index = lowerCaseLine.indexOf(term, index + 1);
 									continue;
 								}
 							}
-							
+
 							int realIndex = lineIndex + index;
 
 							// The annotation ending position

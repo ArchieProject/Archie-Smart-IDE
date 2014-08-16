@@ -22,6 +22,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import archie.views.autodetect.internals.SimpleImageRegistry;
+
 /*******************************************************
  * This is a small shell that encapsulates displaying of an input prompt to take
  * an input string from the user.
@@ -81,7 +83,10 @@ public final class Prompt
 		Display display = Display.getDefault();
 		mShell = new Shell(display, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		mShell.setLayout(new GridLayout(2, true));
-		
+		SimpleImageRegistry imageRegistry = new SimpleImageRegistry(mShell);
+		imageRegistry.registerImagePath("editIcon", "/resources/icons/pick.png");
+		mShell.setImage(imageRegistry.getImage("editIcon"));
+
 		// Put the title of the shell.
 		mShell.setText(title);
 
@@ -115,7 +120,7 @@ public final class Prompt
 
 		// Register the buttons handlers
 		registerHandlers(okButton, cancelButton);
-
+		
 		// Now display the shell.
 		mShell.pack();
 		mShell.open();

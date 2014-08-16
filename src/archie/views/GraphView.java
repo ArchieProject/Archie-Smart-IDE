@@ -150,7 +150,7 @@ public final class GraphView extends ViewPart implements IArchieObserver
 	public void createPartControl(Composite parent)
 	{
 		// The image resource management code:
-		mImageRegistry = new SimpleImageRegistry(this, parent);
+		mImageRegistry = new SimpleImageRegistry(parent);
 
 		// Registering images that will be used
 		mImageRegistry.registerImagePath("pickIcon", "/resources/icons/pick.png");

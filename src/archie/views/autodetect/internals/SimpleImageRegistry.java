@@ -20,7 +20,6 @@ import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
 
 /*******************************************************
  * Defines a simplified image registry to wrap and abstracts the internal JFace
@@ -28,22 +27,20 @@ import org.eclipse.ui.part.ViewPart;
  *******************************************************/
 public final class SimpleImageRegistry
 {
-	private final ViewPart mOwner;
 	private final ImageRegistry mImageRegistery;
 
 	/*******************************************************
-	 * This constructor should only be called from the createPartControl()
-	 * method of the ViewPart class. It creates a simplified image registry that
+	 * This constructor creates a simplified image registry that
 	 * deals with all the internal setup and loading and storing images.
 	 * 
-	 * @param owner
-	 *            The parent view part
 	 * @param parent
 	 *            The parent control
 	 *******************************************************/
-	public SimpleImageRegistry(ViewPart owner, Composite parent)
+	public SimpleImageRegistry(Composite parent)
 	{
-		mOwner = owner;
+		if(parent == null)
+			throw new IllegalArgumentException();
+		
 		// Get the default JFace resource manager
 		ResourceManager rm = JFaceResources.getResources();
 		// Create a local resource manager
@@ -64,7 +61,7 @@ public final class SimpleImageRegistry
 	 *******************************************************/
 	public void registerImagePath(String imageID, String imagePath)
 	{
-		URL imageURL = mOwner.getClass().getResource(imagePath);
+		URL imageURL = this.getClass().getResource(imagePath);
 		mImageRegistery.put(imageID, ImageDescriptor.createFromURL(imageURL));
 	}
 

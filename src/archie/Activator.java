@@ -7,6 +7,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import archie.globals.ArchieSettings;
+import archie.hierarchy.ArchitectureComponentsManager;
 import archie.javamodelbinding.JavaModelBinding;
 import archie.monitoring.MonitoringManager;
 import archie.resourcesbinding.ResourcesBinding;
@@ -54,6 +55,7 @@ public class Activator extends AbstractUIPlugin implements IStartup
 		JavaModelBinding.getInstance().unbind();
 		MonitoringManager.getIntance().saveToDatabase();
 		TimTemplatesProvider.getInstance().saveToDB();
+		ArchitectureComponentsManager.getInstance().saveToDB();
 		super.stop(context);
 	}
 

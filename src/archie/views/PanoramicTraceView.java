@@ -114,7 +114,7 @@ public final class PanoramicTraceView extends ViewPart
 	public void createPartControl(Composite parent)
 	{
 		// The image resource management code:
-		this.mImageRegistry = new SimpleImageRegistry(this, parent);
+		this.mImageRegistry = new SimpleImageRegistry(parent);
 
 		// Registering images that will be used
 		this.mImageRegistry.registerImagePath("addIcon", "/resources/icons/addIcon.png");

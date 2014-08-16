@@ -59,14 +59,8 @@ public final class AddRemoveList extends Composite
 		 * 
 		 * @param selections
 		 *            The selected items from the list.
-		 * 
-		 * @return (For each selected item) true if the handler should remove
-		 *         the given selected item from the list, false otherwise. [The
-		 *         length of the returned array must be equal to the length of
-		 *         the selection array, otherwise it's going to throw an
-		 *         {@link IllegalStateException}].
 		 *******************************************************/
-		boolean[] handle(String[] selections);
+		void handle(String[] selections);
 	}
 
 	// ----------------------------------------
@@ -130,16 +124,45 @@ public final class AddRemoveList extends Composite
 	// ----------------------------------------
 
 	/*******************************************************
+	 * Adds an item to the list.
+	 * 
+	 * @param item
+	 *            The item to be added to the list. [Cannot be null or empty].
+	 *******************************************************/
+	public void addItem(String item)
+	{
+		if (item == null || item.isEmpty())
+			throw new IllegalArgumentException();
+
+		mList.add(item);
+	}
+
+	/*******************************************************
+	 * Removes an item from the list.
+	 * 
+	 * @param item
+	 *            The item to be removed from the list. [Cannot be null or
+	 *            empty].
+	 *******************************************************/
+	public void removeItem(String item)
+	{
+		if (item == null || item.isEmpty())
+			throw new IllegalArgumentException();
+
+		mList.remove(item);
+	}
+
+	/*******************************************************
 	 * Sets the external handler of the add button click event.
 	 * 
 	 * @param handler
-	 * 			The external handler. [Cannot be null].
+	 *            The external handler. [Cannot be null].
 	 *******************************************************/
 	public void setAddButtonClickHandler(IOnAddHandler handler)
 	{
-		if(handler == null)
+		if (handler == null)
 			throw new IllegalArgumentException();
-		
+
 		mAddHandler = handler;
 	}
 
@@ -147,16 +170,16 @@ public final class AddRemoveList extends Composite
 	 * Sets the external handler of the remove button click event.
 	 * 
 	 * @param handler
-	 * 			The external handler. [Cannot be null].
+	 *            The external handler. [Cannot be null].
 	 *******************************************************/
 	public void setRemoveButtonClickHandler(IOnRemoveHandler handler)
 	{
-		if(handler == null)
+		if (handler == null)
 			throw new IllegalArgumentException();
-		
+
 		mRemoveHandler = handler;
 	}
-	
+
 	// ----------------------------------------
 
 	/*******************************************************
@@ -216,6 +239,7 @@ public final class AddRemoveList extends Composite
 					if (result != null && !result.isEmpty())
 					{
 						mList.add(result);
+						AddRemoveList.this.redraw();
 					}
 				}
 			}
@@ -230,34 +254,23 @@ public final class AddRemoveList extends Composite
 			{
 				// Validate there is at least one item selected.
 				String[] selections = mList.getSelection();
-				if(selections.length < 1)
+				if (selections.length < 1)
 				{
-					EclipsePlatformUtils.showErrorMessage("Error", "You must select at least on item from the list");
+					EclipsePlatformUtils.showErrorMessage("Error", "You must select at least one item from the list");
 					return;
 				}
-				
-				if(mRemoveHandler != null)
+
+				if (mRemoveHandler != null)
 				{
-					// The handler decides which item to remove.
-					boolean[] results = mRemoveHandler.handle(selections);
-					
-					// Must be the same size as the selection
-					if(results.length != selections.length)
-						throw new IllegalStateException();
-					
-					for(int i = 0; i < results.length; ++i)
-					{
-						if(results[i])
-						{
-							mList.remove(i);
-						}
-					}
+					// Inform the handler that the selected items will be
+					// removed.
+					mRemoveHandler.handle(selections);
 				}
-				else
-				{
-					// There's no external handler, the elements will be removed.
-					mList.remove(mList.getSelectionIndices());
-				}
+
+				// Now remove the selected elements.
+				mList.remove(mList.getSelectionIndices());
+
+				AddRemoveList.this.redraw();
 			}
 		});
 	}
