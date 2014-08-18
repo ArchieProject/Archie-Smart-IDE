@@ -66,9 +66,9 @@ abstract class AbstractParentArchComp implements IParentArchitectureComponent
 	 * @see archie.hierarchy.IParentArchitectureComponent#addChild(archie.hierarchy.IChildArchitectureComponent)
 	 *******************************************************/
 	@Override
-	public void addChild(IChildArchitectureComponent child)
+	public boolean addChild(IChildArchitectureComponent child)
 	{
-		mChildren.add(child);
+		return mChildren.add(child);
 	}
 
 	/*******************************************************

@@ -537,23 +537,26 @@ public class ArchitectureHierarchyWizard
 				else
 				{
 					// Go to page 2 of 3.
-					new HierarchySelectorPage("Goals", "Sub Goals", new Runnable()
+					new HierarchySelectorPage(2, 3, Goal.GOAL_BEHAVIOR, SubGoal.SUB_GOAL_BEHAVIOR, new Runnable()
 					{
 						@Override
 						public void run()
 						{
 							// Go to page 3 of 3.
-							new HierarchySelectorPage("Sub Goals", "Tactics", null, new Runnable()
-							{
-								@Override
-								public void run()
-								{
-									// TODO: set hierarchy built in the manager.
-								}
-							});
+							new HierarchySelectorPage(3, 3, SubGoal.SUB_GOAL_BEHAVIOR, Tactic.TACTIC_BEHAVIOR, null,
+									new Runnable()
+									{
+										@Override
+										public void run()
+										{
+											// Set hierarchy built in the
+											// manager.
+											ArchitectureComponentsManager.getInstance().setHierarchyBuilt();
+										}
+									});
 						}
 					}, null);
-					
+
 					// Dispose this window.
 					mShell.dispose();
 				}

@@ -14,6 +14,7 @@ package archie.hierarchy;
 import java.util.Set;
 
 
+
 /*******************************************************
  * Defines a system goal software architecture component. It can be a parent to
  * some other sub-goals in the system architecture archie.hierarchy.
@@ -22,6 +23,30 @@ import java.util.Set;
  *******************************************************/
 final class Goal extends AbstractParentArchComp implements IParentArchitectureComponent, Comparable<Goal>
 {
+	/*******************************************************
+	 * Defines the behavior of Goals. 
+	 *******************************************************/
+	public static final IComponentTypeBehavior GOAL_BEHAVIOR = new IComponentTypeBehavior()
+	{
+		@Override
+		public String getComponentType()
+		{
+			return "Goal";
+		}
+		
+		@Override
+		public Set<String> getComponentList()
+		{
+			return ArchitectureComponentsManager.getInstance().getGoalNames();
+		}
+		
+		@Override
+		public IArchitectureComponent getComponent(String name)
+		{
+			return ArchitectureComponentsManager.getInstance().getGoal(name);
+		}
+	};
+	
 	/*******************************************************
 	 * For serialization
 	 *******************************************************/
@@ -54,25 +79,5 @@ final class Goal extends AbstractParentArchComp implements IParentArchitectureCo
 	{
 		// The comparison is based on names.
 		return mName.compareTo(o.mName);
-	}
-
-	/*******************************************************
-	 * 
-	 * @see archie.hierarchy.IArchitectureComponent#getComponentList()
-	 *******************************************************/
-	@Override
-	public Set<String> getComponentList()
-	{
-		return ArchitectureComponentsManager.getInstance().getGoalNames();
-	}
-
-	/*******************************************************
-	 * 
-	 * @see archie.hierarchy.IArchitectureComponent#getComponentType()
-	 *******************************************************/
-	@Override
-	public String getComponentType()
-	{
-		return "Goal";
 	}
 }

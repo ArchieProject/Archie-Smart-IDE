@@ -25,7 +25,16 @@ interface IParentArchitectureComponent extends IArchitectureComponent, Iterable<
 	 * @param child
 	 *            The component to be added as a child.
 	 *******************************************************/
-	public void addChild(IChildArchitectureComponent child);
+	/*******************************************************
+	 * Adds a child component to this component in the archie.hierarchy.
+	 * 
+	 * @param child
+	 *            The component to be added as a child.
+	 * 
+	 * @return true if the child was not already on the list (and successfully
+	 *         added), false otherwise.
+	 *******************************************************/
+	public boolean addChild(IChildArchitectureComponent child);
 
 	/*******************************************************
 	 * Removes the given component from the list of children.

@@ -22,6 +22,30 @@ import java.util.Set;
 final class Tactic implements IChildArchitectureComponent, Comparable<Tactic>
 {
 	/*******************************************************
+	 * Defines the behavior of tactics.
+	 *******************************************************/
+	public static final IComponentTypeBehavior TACTIC_BEHAVIOR = new IComponentTypeBehavior()
+	{		
+		@Override
+		public String getComponentType()
+		{
+			return "Tactic";
+		}
+		
+		@Override
+		public Set<String> getComponentList()
+		{
+			return ArchitectureComponentsManager.getInstance().getTacticNames();
+		}
+		
+		@Override
+		public IArchitectureComponent getComponent(String name)
+		{
+			return ArchitectureComponentsManager.getInstance().getTactic(name);
+		}
+	}; 
+	
+	/*******************************************************
 	 * For Serialization.
 	 *******************************************************/
 	private static final long serialVersionUID = 3962653391600765109L;
@@ -38,8 +62,8 @@ final class Tactic implements IChildArchitectureComponent, Comparable<Tactic>
 	 * components manager.
 	 * 
 	 * @param name
-	 *            The name of the sub-goal, it must be unique. Its uniqueness will
-	 *            be validated by the architecture components manager.
+	 *            The name of the sub-goal, it must be unique. Its uniqueness
+	 *            will be validated by the architecture components manager.
 	 *            [Can't be null or empty].
 	 *******************************************************/
 	Tactic(String name)
@@ -77,20 +101,20 @@ final class Tactic implements IChildArchitectureComponent, Comparable<Tactic>
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(this == obj)
+		if (this == obj)
 			return true;
-		
-		if(obj == null)
+
+		if (obj == null)
 			return false;
-		
-		if(this.getClass() != obj.getClass())
+
+		if (this.getClass() != obj.getClass())
 			return false;
-		
+
 		Tactic other = (Tactic) obj;
-		
+
 		return mName.equals(other.mName);
 	}
-	
+
 	/*******************************************************
 	 * 
 	 * @see java.lang.Object#hashCode()
@@ -99,25 +123,5 @@ final class Tactic implements IChildArchitectureComponent, Comparable<Tactic>
 	public int hashCode()
 	{
 		return mName.hashCode();
-	}
-
-	/*******************************************************
-	 * 
-	 * @see archie.hierarchy.IArchitectureComponent#getComponentList()
-	 *******************************************************/
-	@Override
-	public Set<String> getComponentList()
-	{
-		return ArchitectureComponentsManager.getInstance().getTacticNames();
-	}
-
-	/*******************************************************
-	 * 
-	 * @see archie.hierarchy.IArchitectureComponent#getComponentType()
-	 *******************************************************/
-	@Override
-	public String getComponentType()
-	{
-		return "Tactic";
 	}
 }

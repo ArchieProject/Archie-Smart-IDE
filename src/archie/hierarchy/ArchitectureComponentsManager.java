@@ -309,6 +309,12 @@ public final class ArchitectureComponentsManager
 	{
 		try
 		{
+			// Before saving, we need to make sure that the "mIsBuilt" flag is accurate.
+			if(goalsSize() < 1 || subGoalsSize() < 1 || tacticsSize() < 1)
+			{
+				mStorage.mIsBuilt = false;
+			}
+			
 			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File(ArchieSettings.getInstance()
 					.getHierarchyDBFile())));
 

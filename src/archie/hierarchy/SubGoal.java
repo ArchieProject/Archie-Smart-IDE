@@ -21,6 +21,30 @@ import java.util.Set;
 final class SubGoal extends AbstractParentArchComp implements IChildArchitectureComponent, Comparable<SubGoal>
 {
 	/*******************************************************
+	 * Defines the behavior of Sub-Goals
+	 *******************************************************/
+	public static final IComponentTypeBehavior SUB_GOAL_BEHAVIOR = new IComponentTypeBehavior()
+	{
+		@Override
+		public String getComponentType()
+		{
+			return "Sub Goal";
+		}
+		
+		@Override
+		public Set<String> getComponentList()
+		{
+			return ArchitectureComponentsManager.getInstance().getSubGoalNames();
+		}
+		
+		@Override
+		public IArchitectureComponent getComponent(String name)
+		{
+			return ArchitectureComponentsManager.getInstance().getSubGoal(name);
+		}
+	};
+	
+	/*******************************************************
 	 * For serialization.
 	 *******************************************************/
 	private static final long serialVersionUID = 4923168170125573473L;
@@ -32,8 +56,8 @@ final class SubGoal extends AbstractParentArchComp implements IChildArchitecture
 	 * components manager.
 	 * 
 	 * @param name
-	 *            The name of the sub-goal, it must be unique. Its uniqueness will
-	 *            be validated by the architecture components manager.
+	 *            The name of the sub-goal, it must be unique. Its uniqueness
+	 *            will be validated by the architecture components manager.
 	 *            [Can't be null or empty].
 	 *******************************************************/
 	SubGoal(String name)
@@ -49,25 +73,5 @@ final class SubGoal extends AbstractParentArchComp implements IChildArchitecture
 	public int compareTo(SubGoal o)
 	{
 		return mName.compareTo(o.mName);
-	}
-
-	/*******************************************************
-	 * 
-	 * @see archie.hierarchy.IArchitectureComponent#getComponentList()
-	 *******************************************************/
-	@Override
-	public Set<String> getComponentList()
-	{
-		return ArchitectureComponentsManager.getInstance().getSubGoalNames();
-	}
-
-	/*******************************************************
-	 * 
-	 * @see archie.hierarchy.IArchitectureComponent#getComponentType()
-	 *******************************************************/
-	@Override
-	public String getComponentType()
-	{
-		return "Sub Goal";
 	}
 }
