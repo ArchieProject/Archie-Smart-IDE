@@ -51,7 +51,8 @@ public final class ArchitectureComponentsManager
 		Map<String, SubGoal> mSubGoals = new HashMap<String, SubGoal>();
 		Map<String, Tactic> mTactics = new HashMap<String, Tactic>();
 
-		// Tests whether a archie.hierarchy for the system has been defined and built.
+		// Tests whether a archie.hierarchy for the system has been defined and
+		// built.
 		boolean mIsBuilt = false;
 
 		/*******************************************************
@@ -86,7 +87,8 @@ public final class ArchitectureComponentsManager
 	}
 
 	/*******************************************************
-	 * @return Whether the archie.hierarchy of the architecture goals has been built.
+	 * @return Whether the archie.hierarchy of the architecture goals has been
+	 *         built.
 	 *******************************************************/
 	public boolean isHierarchyBuilt()
 	{
@@ -94,6 +96,30 @@ public final class ArchitectureComponentsManager
 	}
 
 	// -------------------------------
+
+	/*******************************************************
+	 * @return The number of goals defined in the system.
+	 *******************************************************/
+	public int goalsSize()
+	{
+		return mStorage.mGoals.size();
+	}
+
+	/*******************************************************
+	 * @return The number of sub goals defined in the system.
+	 *******************************************************/
+	public int subGoalsSize()
+	{
+		return mStorage.mSubGoals.size();
+	}
+
+	/*******************************************************
+	 * @return The number of tactics defined in the system.
+	 *******************************************************/
+	public int tacticsSize()
+	{
+		return mStorage.mTactics.size();
+	}
 
 	/*******************************************************
 	 * Creates a goal and adds it to the list, provided that the given goal name
@@ -276,8 +302,8 @@ public final class ArchitectureComponentsManager
 	}
 
 	/*******************************************************
-	 * Serializes and saves the stored system architecture archie.hierarchy components
-	 * to the database.
+	 * Serializes and saves the stored system architecture archie.hierarchy
+	 * components to the database.
 	 *******************************************************/
 	public void saveToDB()
 	{

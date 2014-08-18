@@ -12,6 +12,8 @@
 package archie.hierarchy;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -20,6 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import archie.utils.EclipsePlatformUtils;
 import archie.views.autodetect.internals.SimpleImageRegistry;
 import archie.widgets.AddRemoveList;
 import archie.widgets.Prompt;
@@ -52,7 +55,7 @@ public class ArchitectureHierarchyWizard
 		// Initialize the shell.
 		mShell = new Shell(Display.getDefault(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		mShell.setLayout(new GridLayout(3, true));
-		mShell.setText("System Architecture Components Wizard");
+		mShell.setText("System Architecture Components Wizard (1 of 3)");
 
 		// Initialize the image registry.
 		initImageRegistry();
@@ -67,6 +70,9 @@ public class ArchitectureHierarchyWizard
 
 		// Register lists handlers.
 		registerListsHandlers();
+
+		// Register next handler.
+		registerNextButtonHandler();
 
 		// Display the shell.
 		mShell.open();
@@ -149,7 +155,7 @@ public class ArchitectureHierarchyWizard
 			public void add(String input, AddRemoveList owner)
 			{
 				// Adds to the list of sub goals.
-				if(ArchitectureComponentsManager.getInstance().addSubGoal(input))
+				if (ArchitectureComponentsManager.getInstance().addSubGoal(input))
 				{
 					owner.addItem(input);
 				}
@@ -165,7 +171,7 @@ public class ArchitectureHierarchyWizard
 			public void add(String input, AddRemoveList owner)
 			{
 				// Add to the list of tactics.
-				if(ArchitectureComponentsManager.getInstance().addTactic(input))
+				if (ArchitectureComponentsManager.getInstance().addTactic(input))
 				{
 					owner.addItem(input);
 				}
@@ -217,9 +223,9 @@ public class ArchitectureHierarchyWizard
 					throw new IllegalArgumentException();
 			}
 
-			if(owner == null)
+			if (owner == null)
 				throw new IllegalArgumentException();
-			
+
 			mOwner = owner;
 		}
 
@@ -374,7 +380,7 @@ public class ArchitectureHierarchyWizard
 		@Override
 		public void handle(String[] selections)
 		{
-			for(String item : selections)
+			for (String item : selections)
 			{
 				mCommand.remove(item);
 			}
@@ -507,5 +513,51 @@ public class ArchitectureHierarchyWizard
 
 		// The Tactics remove button handler.
 		mTactics.setRemoveButtonClickHandler(new RemoveHandler(EComponentType.TACTIC));
+	}
+
+	/*******************************************************
+	 * Register the event handler for clicking on the next button.
+	 *******************************************************/
+	private void registerNextButtonHandler()
+	{
+		mNextButton.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseDown(MouseEvent e)
+			{
+				// User must have added at least one item of each type.
+				int goalsSize = ArchitectureComponentsManager.getInstance().goalsSize();
+				int subGoalsSize = ArchitectureComponentsManager.getInstance().subGoalsSize();
+				int tacticsSize = ArchitectureComponentsManager.getInstance().tacticsSize();
+
+				if (goalsSize < 1 || subGoalsSize < 1 || tacticsSize < 1)
+				{
+					EclipsePlatformUtils.showErrorMessage("Error", "You must add at least one item of each type!");
+				}
+				else
+				{
+					// Go to page 2 of 3.
+					new HierarchySelectorPage("Goals", "Sub Goals", new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							// Go to page 3 of 3.
+							new HierarchySelectorPage("Sub Goals", "Tactics", null, new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									// TODO: set hierarchy built in the manager.
+								}
+							});
+						}
+					}, null);
+					
+					// Dispose this window.
+					mShell.dispose();
+				}
+			}
+		});
 	}
 }

@@ -11,6 +11,8 @@
 
 package archie.hierarchy;
 
+import java.util.Set;
+
 /*******************************************************
  * Defines a leaf software architecture component. A tactic is used to achieve a
  * goal or sub-goal.
@@ -97,5 +99,25 @@ final class Tactic implements IChildArchitectureComponent, Comparable<Tactic>
 	public int hashCode()
 	{
 		return mName.hashCode();
+	}
+
+	/*******************************************************
+	 * 
+	 * @see archie.hierarchy.IArchitectureComponent#getComponentList()
+	 *******************************************************/
+	@Override
+	public Set<String> getComponentList()
+	{
+		return ArchitectureComponentsManager.getInstance().getTacticNames();
+	}
+
+	/*******************************************************
+	 * 
+	 * @see archie.hierarchy.IArchitectureComponent#getComponentType()
+	 *******************************************************/
+	@Override
+	public String getComponentType()
+	{
+		return "Tactic";
 	}
 }

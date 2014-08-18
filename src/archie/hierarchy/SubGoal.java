@@ -11,6 +11,8 @@
 
 package archie.hierarchy;
 
+import java.util.Set;
+
 /*******************************************************
  * Defines a sub-goal which can be a parent to a tactic and a child of a goal.
  * 
@@ -47,5 +49,25 @@ final class SubGoal extends AbstractParentArchComp implements IChildArchitecture
 	public int compareTo(SubGoal o)
 	{
 		return mName.compareTo(o.mName);
+	}
+
+	/*******************************************************
+	 * 
+	 * @see archie.hierarchy.IArchitectureComponent#getComponentList()
+	 *******************************************************/
+	@Override
+	public Set<String> getComponentList()
+	{
+		return ArchitectureComponentsManager.getInstance().getSubGoalNames();
+	}
+
+	/*******************************************************
+	 * 
+	 * @see archie.hierarchy.IArchitectureComponent#getComponentType()
+	 *******************************************************/
+	@Override
+	public String getComponentType()
+	{
+		return "Sub Goal";
 	}
 }
