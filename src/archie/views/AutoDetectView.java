@@ -1024,9 +1024,14 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 			@Override
 			public void mouseDoubleClick(MouseEvent e)
 			{
-				String file = mTIMsList.getSelection()[0];
+				String[] selections = mTIMsList.getSelection();
 
-				EclipsePlatformUtils.openFileInDefaultEditor(file, true);
+				if (selections != null && selections.length > 0)
+				{
+					String file = selections[0];
+
+					EclipsePlatformUtils.openFileInDefaultEditor(file, true);
+				}
 			}
 		});
 	}

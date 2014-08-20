@@ -107,6 +107,22 @@ public class TimsManager
 			observer.notifyMeWithTimsChange();
 		}
 	}
+	
+	/*******************************************************
+	 * Gets a TIM whose absolute path is given, if any exists, null otherwise.
+	 * 
+	 * @param path
+	 * 			The absolute path of the TIM.
+	 * 
+	 * @return A TIM whose absolute path is given, if any exists, null otherwise.
+	 *******************************************************/
+	public Tim findTimForAbsolutePath(String path)
+	{
+		if (path == null || path.isEmpty())
+			throw new IllegalArgumentException();
+
+		return tims.get(path);
+	}
 
 	// --------------------------------------------------------------------------
 
