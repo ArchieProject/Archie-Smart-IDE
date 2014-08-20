@@ -59,6 +59,11 @@ public final class TimComponent extends AbstractArchitectureComponent implements
 	 * later.
 	 *******************************************************/
 	private boolean mIsOpen = true;
+	
+	/*******************************************************
+	 * This will be true when it's needed to be deleted.
+	 *******************************************************/
+	private boolean mIsInvalid = false;
 
 	/*******************************************************
 	 * Constructs a TIM component in the architecture hierarchy.
@@ -106,4 +111,19 @@ public final class TimComponent extends AbstractArchitectureComponent implements
 		return (mIsOpen == true);
 	}
 
+	/*******************************************************
+	 * Sets it to invalid so that it can be removed by parent tactics.
+	 *******************************************************/
+	public void markInvalid()
+	{
+		mIsInvalid = true;
+	}
+	
+	/*******************************************************
+	 * @return true if this TIM is invalid (deleted from the file system).
+	 *******************************************************/
+	public boolean isInvalid()
+	{
+		return (mIsInvalid == true);
+	}
 }

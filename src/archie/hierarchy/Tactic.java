@@ -11,6 +11,7 @@
 
 package archie.hierarchy;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -88,6 +89,8 @@ public final class Tactic extends AbstractParentArchComp implements IChildArchit
 	public Iterator<IChildArchitectureComponent> iterator()
 	{
 		Set<IChildArchitectureComponent> result = new TreeSet<IChildArchitectureComponent>();
+		ArrayList<TimComponent> invalids = new ArrayList<TimComponent>();
+		
 		for(IChildArchitectureComponent child : mChildren)
 		{
 			// Only add a child TIM component if it's marked as open.
@@ -98,12 +101,22 @@ public final class Tactic extends AbstractParentArchComp implements IChildArchit
 				{
 					result.add(timComp);
 				}
+				else if(timComp.isInvalid())
+				{
+					invalids.add(timComp);
+				}
 			}
 			else
 			{
 				// Another type of children, just add them
 				result.add(child);
 			}
+		}
+		
+		// Before returning get rid of those invalids
+		for(TimComponent invTim : invalids)
+		{
+			mChildren.remove(invTim);
 		}
 		
 		return result.iterator();

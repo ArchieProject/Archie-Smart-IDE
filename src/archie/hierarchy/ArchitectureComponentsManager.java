@@ -25,6 +25,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import archie.globals.ArchieSettings;
 import archie.timstorage.TimsManager;
@@ -89,6 +91,8 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 
 	// The storage instance
 	private ArchCompStorage mStorage;
+	
+	private Lock mUpdateLock = new ReentrantLock();
 
 	/*******************************************************
 	 * @return The singleton instance of this class.
@@ -528,6 +532,10 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 		// 5.2 - Unmarked TIM files that still exist in the file system are most
 		// probably in closed projects, mark them as closed.
 
+		// Synchronize access here -----------------------
+		if(!mUpdateLock.tryLock())
+			return;
+		
 		ArrayList<String> tims = TimsManager.getInstance().getAllNames();
 		HashSet<TimComponent> visited = new HashSet<TimComponent>();
 		
@@ -571,9 +579,17 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 				{
 					// No, then remove it completely
 					mStorage.mTimComponents.remove(timComp.getName());
+					
+					// Mark it as invalid and closed
+					timComp.markClosed();
+					timComp.markInvalid();
 				}
 			}
 		}
+		
+		
+		// Unlock ----------
+		mUpdateLock.unlock();
 	}
 
 	/*******************************************************
