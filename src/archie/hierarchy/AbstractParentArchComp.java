@@ -20,7 +20,7 @@ import java.util.TreeSet;
  * An abstract parent software architecture component. It contains the common
  * code for the components that can be parents.
  *******************************************************/
-abstract class AbstractParentArchComp implements IParentArchitectureComponent
+abstract class AbstractParentArchComp extends AbstractArchitectureComponent implements IParentArchitectureComponent
 {
 	/*******************************************************
 	 * For Serialization.
@@ -28,14 +28,9 @@ abstract class AbstractParentArchComp implements IParentArchitectureComponent
 	private static final long serialVersionUID = -8895527846156195788L;
 
 	/*******************************************************
-	 * The unique name of the goal.
-	 *******************************************************/
-	protected final String mName;
-
-	/*******************************************************
 	 * The sorted list of children.
 	 *******************************************************/
-	private final Set<IChildArchitectureComponent> mChildren = new TreeSet<IChildArchitectureComponent>();
+	protected final Set<IChildArchitectureComponent> mChildren = new TreeSet<IChildArchitectureComponent>();
 
 	/*******************************************************
 	 * Constructs an abstract parent architecture component.
@@ -45,20 +40,7 @@ abstract class AbstractParentArchComp implements IParentArchitectureComponent
 	 *******************************************************/
 	AbstractParentArchComp(String name)
 	{
-		if (name == null || name.isEmpty())
-			throw new IllegalArgumentException();
-
-		mName = name;
-	}
-
-	/*******************************************************
-	 * 
-	 * @see archie.hierarchy.IArchitectureComponent#getName()
-	 *******************************************************/
-	@Override
-	public String getName()
-	{
-		return mName;
+		super(name);
 	}
 
 	/*******************************************************
@@ -99,37 +81,5 @@ abstract class AbstractParentArchComp implements IParentArchitectureComponent
 	public void clearChildren()
 	{
 		mChildren.clear();
-	}
-
-	/*******************************************************
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 *******************************************************/
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-
-		if (obj == null)
-			return false;
-
-		// Must the same class.
-		if (obj.getClass() != this.getClass())
-			return false;
-		
-		AbstractParentArchComp other = (AbstractParentArchComp) obj;
-		
-		return mName.equals(other.mName);
-	}
-	
-	/*******************************************************
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 *******************************************************/
-	@Override
-	public int hashCode()
-	{
-		return mName.hashCode();
 	}
 }

@@ -11,7 +11,9 @@
 
 package archie.hierarchy;
 
+import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 /*******************************************************
  * Defines a leaf software architecture component. A tactic is used to achieve a
@@ -19,41 +21,36 @@ import java.util.Set;
  * 
  * @author Ahmed Fakhry
  *******************************************************/
-final class Tactic implements IChildArchitectureComponent, Comparable<Tactic>
+final class Tactic extends AbstractParentArchComp implements IChildArchitectureComponent, Comparable<Tactic>
 {
 	/*******************************************************
 	 * Defines the behavior of tactics.
 	 *******************************************************/
 	public static final IComponentTypeBehavior TACTIC_BEHAVIOR = new IComponentTypeBehavior()
-	{		
+	{
 		@Override
 		public String getComponentType()
 		{
 			return "Tactic";
 		}
-		
+
 		@Override
 		public Set<String> getComponentList()
 		{
 			return ArchitectureComponentsManager.getInstance().getTacticNames();
 		}
-		
+
 		@Override
 		public IArchitectureComponent getComponent(String name)
 		{
 			return ArchitectureComponentsManager.getInstance().getTactic(name);
 		}
-	}; 
-	
+	};
+
 	/*******************************************************
 	 * For Serialization.
 	 *******************************************************/
 	private static final long serialVersionUID = 3962653391600765109L;
-
-	/*******************************************************
-	 * The unique name of the tactic.
-	 *******************************************************/
-	private final String mName;
 
 	/*******************************************************
 	 * Constructs a tactic.
@@ -68,20 +65,7 @@ final class Tactic implements IChildArchitectureComponent, Comparable<Tactic>
 	 *******************************************************/
 	Tactic(String name)
 	{
-		if (name == null || name.isEmpty())
-			throw new IllegalArgumentException();
-
-		mName = name;
-	}
-
-	/*******************************************************
-	 * 
-	 * @see archie.hierarchy.IArchitectureComponent#getName()
-	 *******************************************************/
-	@Override
-	public String getName()
-	{
-		return mName;
+		super(name);
 	}
 
 	/*******************************************************
@@ -95,33 +79,33 @@ final class Tactic implements IChildArchitectureComponent, Comparable<Tactic>
 	}
 
 	/*******************************************************
+	 * Here we override the iterator method so that it only returns an iterator
+	 * over the open TimComponents.
 	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	 * @see archie.hierarchy.AbstractParentArchComp#iterator()
 	 *******************************************************/
 	@Override
-	public boolean equals(Object obj)
+	public Iterator<IChildArchitectureComponent> iterator()
 	{
-		if (this == obj)
-			return true;
-
-		if (obj == null)
-			return false;
-
-		if (this.getClass() != obj.getClass())
-			return false;
-
-		Tactic other = (Tactic) obj;
-
-		return mName.equals(other.mName);
-	}
-
-	/*******************************************************
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 *******************************************************/
-	@Override
-	public int hashCode()
-	{
-		return mName.hashCode();
+		Set<IChildArchitectureComponent> result = new TreeSet<IChildArchitectureComponent>();
+		for(IChildArchitectureComponent child : mChildren)
+		{
+			// Only add a child TIM component if it's marked as open.
+			if(child instanceof TimComponent)
+			{
+				TimComponent timComp = (TimComponent) child;
+				if(timComp.isOpen())
+				{
+					result.add(timComp);
+				}
+			}
+			else
+			{
+				// Another type of children, just add them
+				result.add(child);
+			}
+		}
+		
+		return result.iterator();
 	}
 }

@@ -60,7 +60,6 @@ final class HierarchySelectorPage
 	// Construction
 	// ----------------------------------------
 
-
 	/*******************************************************
 	 * 
 	 * @param pageNum
@@ -70,8 +69,8 @@ final class HierarchySelectorPage
 	 * @param onNext
 	 * @param onFinish
 	 *******************************************************/
-	public HierarchySelectorPage(int pageNum, int pagesCount, IComponentTypeBehavior parentBehavior, IComponentTypeBehavior childBehavior,
-			Runnable onNext, Runnable onFinish)
+	public HierarchySelectorPage(int pageNum, int pagesCount, IComponentTypeBehavior parentBehavior,
+			IComponentTypeBehavior childBehavior, Runnable onNext, Runnable onFinish)
 	{
 		// Validate behaviors
 		if (parentBehavior == null || childBehavior == null)
@@ -94,7 +93,7 @@ final class HierarchySelectorPage
 		// Initialize the shell.
 		mShell = new Shell(Display.getDefault(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		mShell.setLayout(new GridLayout(2, true));
-		mShell.setText("System Architecture Components Wizard ("+ pageNum +" of " + pagesCount + ")");
+		mShell.setText("System Architecture Components Wizard (" + pageNum + " of " + pagesCount + ")");
 
 		// Initialize the image registry.
 		initImageRegistry();
@@ -137,7 +136,9 @@ final class HierarchySelectorPage
 		mImageRegistry.registerImagePath(Goal.GOAL_BEHAVIOR.getComponentType(), "/resources/icons/goalIcon.png");
 		mImageRegistry.registerImagePath(SubGoal.SUB_GOAL_BEHAVIOR.getComponentType(),
 				"/resources/icons/subGoalIcon.png");
-		mImageRegistry.registerImagePath(Tactic.TACTIC_BEHAVIOR.getComponentType(), "/resources/icons/timeditor.png");
+		mImageRegistry.registerImagePath(Tactic.TACTIC_BEHAVIOR.getComponentType(), "/resources/icons/tactics.png");
+		mImageRegistry.registerImagePath(TimComponent.TIM_COMPONENT_BEHAVIOR.getComponentType(),
+				"/resources/icons/timeditor.png");
 	}
 
 	/*******************************************************
@@ -150,14 +151,15 @@ final class HierarchySelectorPage
 
 		// The instructions label.
 		Label label = new Label(mShell, SWT.NONE);
-		label.setText("(Step " + pageNum + " of "+ pagesCount +"): Define the " + parentType + "s to " + childType + "s hierarchy relationships.");
+		label.setText("(Step " + pageNum + " of " + pagesCount + "): Define the " + parentType + "s to " + childType
+				+ "s hierarchy relationships.");
 		GridData gData = new GridData(SWT.FILL, SWT.FILL, true, false);
 		gData.horizontalSpan = 2;
 		label.setLayoutData(gData);
 
 		// The parent component group
 		Group parentGroup = new Group(mShell, SWT.NONE);
-		gData = new GridData(SWT.FILL, SWT.FILL, false, true);
+		gData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		parentGroup.setLayoutData(gData);
 		parentGroup.setText(parentType + "s Selector");
 		parentGroup.setLayout(new GridLayout(1, true));
@@ -174,7 +176,7 @@ final class HierarchySelectorPage
 
 		// The children list group
 		Group childrenGroup = new Group(mShell, SWT.NONE);
-		gData = new GridData(SWT.FILL, SWT.FILL, false, true);
+		gData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		childrenGroup.setLayoutData(gData);
 		childrenGroup.setText(childType + "s List");
 		childrenGroup.setLayout(new GridLayout(1, true));

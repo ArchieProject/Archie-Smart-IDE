@@ -536,26 +536,47 @@ public class ArchitectureHierarchyWizard
 				}
 				else
 				{
-					// Go to page 2 of 3.
-					new HierarchySelectorPage(2, 3, Goal.GOAL_BEHAVIOR, SubGoal.SUB_GOAL_BEHAVIOR, new Runnable()
+					// Prepare the runnables to move from page to page:
+
+					// Finish runnable
+					final Runnable finishRunnable = new Runnable()
 					{
 						@Override
 						public void run()
 						{
-							// Go to page 3 of 3.
-							new HierarchySelectorPage(3, 3, SubGoal.SUB_GOAL_BEHAVIOR, Tactic.TACTIC_BEHAVIOR, null,
-									new Runnable()
-									{
-										@Override
-										public void run()
-										{
-											// Set hierarchy built in the
-											// manager.
-											ArchitectureComponentsManager.getInstance().setHierarchyBuilt();
-										}
-									});
+							// Set hierarchy built in the
+							// manager.
+							ArchitectureComponentsManager.getInstance().setHierarchyBuilt();
 						}
-					}, null);
+					};
+
+					// 3 to 4: Link Tactics to TIMs
+					final Runnable page3to4 = new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							new HierarchySelectorPage(4, 4, Tactic.TACTIC_BEHAVIOR,
+									TimComponent.TIM_COMPONENT_BEHAVIOR, null, finishRunnable);
+						}
+					};
+
+					// 2 to 3: Page3 - Link Tactics to Sub Goals
+					final Runnable page2to3 = new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							// Go to page 3 of 4.
+							new HierarchySelectorPage(3, 4, SubGoal.SUB_GOAL_BEHAVIOR, Tactic.TACTIC_BEHAVIOR, page3to4, null);
+						}
+					};
+					
+					// ----------------------------
+					
+					// Actual page creation here:
+					// Go to page 2 of 3.
+					new HierarchySelectorPage(2, 4, Goal.GOAL_BEHAVIOR, SubGoal.SUB_GOAL_BEHAVIOR, page2to3, null);
 
 					// Dispose this window.
 					mShell.dispose();

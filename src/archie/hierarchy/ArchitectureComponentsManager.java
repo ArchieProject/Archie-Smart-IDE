@@ -18,10 +18,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
+
 import archie.globals.ArchieSettings;
+import archie.timstorage.TimsManager;
+import archie.views.autodetect.internals.IArchieObserver;
 
 /*******************************************************
  * Defines the singleton manager that manages the storage of all architecture
@@ -29,7 +36,7 @@ import archie.globals.ArchieSettings;
  * 
  * @author Ahmed Fakhry
  *******************************************************/
-public final class ArchitectureComponentsManager
+public final class ArchitectureComponentsManager implements IArchieObserver
 {
 	/*******************************************************
 	 * The singleton instance.
@@ -50,6 +57,7 @@ public final class ArchitectureComponentsManager
 		Map<String, Goal> mGoals = new HashMap<String, Goal>();
 		Map<String, SubGoal> mSubGoals = new HashMap<String, SubGoal>();
 		Map<String, Tactic> mTactics = new HashMap<String, Tactic>();
+		Map<String, TimComponent> mTimComponents = new HashMap<String, TimComponent>();
 
 		// Tests whether a archie.hierarchy for the system has been defined and
 		// built.
@@ -63,7 +71,19 @@ public final class ArchitectureComponentsManager
 			mGoals.clear();
 			mSubGoals.clear();
 			mTactics.clear();
+			mTimComponents.clear();
 			mIsBuilt = false;
+		}
+		
+		/*******************************************************
+		 * Validates that the storage is actually built.
+		 *******************************************************/
+		void validate()
+		{
+			if (mGoals.size() < 1 || mSubGoals.size() < 1 || mTactics.size() < 1 || mTimComponents.size() < 1)
+			{
+				mIsBuilt = false;
+			}
 		}
 	}
 
@@ -119,6 +139,14 @@ public final class ArchitectureComponentsManager
 	public int tacticsSize()
 	{
 		return mStorage.mTactics.size();
+	}
+
+	/*******************************************************
+	 * @return The number of the TIM components in the system.
+	 *******************************************************/
+	public int timComponentsSize()
+	{
+		return mStorage.mTimComponents.size();
 	}
 
 	/*******************************************************
@@ -301,6 +329,82 @@ public final class ArchitectureComponentsManager
 		return mStorage.mTactics.keySet();
 	}
 
+	// -------------------------------
+
+	/*******************************************************
+	 * Creates a TIM Component and adds it to the list, provided that the given
+	 * TIM Component name is unique (i.e. no other TIM Component has been
+	 * created with the same name before).
+	 * 
+	 * @param timFilePath
+	 *            The absolute path of the TIM file that will be represented by
+	 *            the new TIM component. [Cannot be null or empty.]
+	 * 
+	 * @return true if creation was successful or false otherwise.
+	 *******************************************************/
+	public boolean addTimComponent(String timFilePath)
+	{
+		// Cannot be null or empty.
+		if (timFilePath == null || timFilePath.isEmpty())
+			throw new IllegalArgumentException();
+
+		// Does it already exist?
+		if (mStorage.mTimComponents.get(timFilePath) != null)
+			return false;
+
+		// Create and store the new sub-goal, and return true.
+		mStorage.mTimComponents.put(timFilePath, new TimComponent(timFilePath));
+		return true;
+	}
+
+	/*******************************************************
+	 * Removes a TIM Component whose name is given (if such a TIM Component
+	 * exists).
+	 * 
+	 * @param timFilePath
+	 *            The absolute path of the TIM file that will be removed.
+	 *******************************************************/
+	public void removeTimComponent(String timFilePath)
+	{
+		mStorage.mTimComponents.remove(timFilePath);
+	}
+
+	/*******************************************************
+	 * Gets the TIM Component object whose name is provided, or null if it
+	 * doesn't exist.
+	 * 
+	 * @param timFilePath
+	 *            The name of the TIM Component.
+	 * @return The {@link TimComponent} object if it exists, or null otherwise.
+	 *******************************************************/
+	public TimComponent getTimComponent(String timFilePath)
+	{
+		return mStorage.mTimComponents.get(timFilePath);
+	}
+
+	/*******************************************************
+	 * @return A set that contains the list of TIM Component names (of ONLY the
+	 *         opened ones) that are present in the system.
+	 *******************************************************/
+	public Set<String> getTimComponentNames()
+	{
+		Collection<TimComponent> fullSet = mStorage.mTimComponents.values();
+		Set<String> result = new TreeSet<String>();
+
+		// Only return those that are marked open.
+		for (TimComponent tim : fullSet)
+		{
+			if (tim.isOpen())
+			{
+				result.add(tim.getName());
+			}
+		}
+
+		return result;
+	}
+
+	// --------------------------------
+
 	/*******************************************************
 	 * Serializes and saves the stored system architecture archie.hierarchy
 	 * components to the database.
@@ -309,12 +413,10 @@ public final class ArchitectureComponentsManager
 	{
 		try
 		{
-			// Before saving, we need to make sure that the "mIsBuilt" flag is accurate.
-			if(goalsSize() < 1 || subGoalsSize() < 1 || tacticsSize() < 1)
-			{
-				mStorage.mIsBuilt = false;
-			}
-			
+			// Before saving, we need to make sure that the "mIsBuilt" flag is
+			// accurate.
+			mStorage.validate();
+
 			ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File(ArchieSettings.getInstance()
 					.getHierarchyDBFile())));
 
@@ -364,6 +466,102 @@ public final class ArchitectureComponentsManager
 			// Create a new storage.
 			mStorage = new ArchCompStorage();
 		}
+
+		mStorage.validate();
+		
+		// Must add yourself as an observer of the TIMs manager.
+		TimsManager.getInstance().registerTimsObserver(this);
+		
+		// Get initial list.
+		notifyMeWithTimsChange();
+	}
+
+	/*******************************************************
+	 * 
+	 * @see archie.views.autodetect.internals.IArchieObserver#notifyMeWithTimsChange()
+	 *******************************************************/
+	@Override
+	public void notifyMeWithTimsChange()
+	{
+		// We will do a "Mark, Add, and Sweep" algorithm!!
+		// 1- We'll get the current list of TIMs from the manager.
+		// 2- Anything we already have, will be marked.
+		// 3- Anything we don't have will be added.
+		// 4- Anything that remains unmarked at the end will be left to the
+		// sweep phase.
+
+		// 5- The Sweep Phase:
+		// 5.1 - Unmarked TIM files that are not present in the file system will
+		// be removed completely.
+		// 5.2 - Unmarked TIM files that still exist in the file system are most
+		// probably in closed projects, mark them as closed.
+
+		ArrayList<String> tims = TimsManager.getInstance().getAllNames();
+		HashSet<TimComponent> visited = new HashSet<TimComponent>();
+		
+		// Mark & Add phase:
+		for(String tim : tims)
+		{
+			// Do we already have it?
+			TimComponent timComp = mStorage.mTimComponents.get(tim);
+			if(timComp == null)
+			{
+				// We don't, create it.
+				timComp = new TimComponent(tim);
+				// Add it.
+				mStorage.mTimComponents.put(tim, timComp);
+			}
+			
+			// We now mark it as visited.
+			visited.add(timComp);
+		}
+		
+		// Sweep phase:
+		Collection<TimComponent> timComps = mStorage.mTimComponents.values();
+		for(TimComponent timComp : timComps)
+		{
+			// Was it marked as visited?
+			if(visited.contains(timComp))
+			{
+				// Yes, make sure that it's open
+				timComp.markOpen();
+			}
+			else
+			{
+				// No!
+				// Does it exist in the file system?
+				if(new File(timComp.getName()).exists())
+				{
+					// Yes, mark it as closed
+					timComp.markClosed();
+				}
+				else
+				{
+					// No, then remove it completely
+					mStorage.mTimComponents.remove(timComp.getName());
+				}
+			}
+		}
+	}
+
+	/*******************************************************
+	 * 
+	 * @see archie.views.autodetect.internals.IArchieObserver#notifyMeWithAcceptedListChange()
+	 *******************************************************/
+	@Override
+	public void notifyMeWithAcceptedListChange()
+	{
+		// Doesn't do anything here.
+	}
+
+	/*******************************************************
+	 * 
+	 * @see archie.views.autodetect.internals.IArchieObserver#notifyMeWithJavaProjectsChange()
+	 *******************************************************/
+	@Override
+	public void notifyMeWithJavaProjectsChange()
+	{
+		// Doesn't do anything here.
 	}
 
 }
