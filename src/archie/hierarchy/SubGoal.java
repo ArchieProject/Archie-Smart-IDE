@@ -18,7 +18,7 @@ import java.util.Set;
  * 
  * @author Ahmed Fakhry
  *******************************************************/
-final class SubGoal extends AbstractParentArchComp implements IChildArchitectureComponent, Comparable<SubGoal>
+public final class SubGoal extends AbstractParentArchComp implements IChildArchitectureComponent, Comparable<SubGoal>
 {
 	/*******************************************************
 	 * Defines the behavior of Sub-Goals

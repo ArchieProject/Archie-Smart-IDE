@@ -20,7 +20,7 @@ import java.util.Set;
  * 
  * @author Ahmed Fakhry
  *******************************************************/
-final class TimComponent extends AbstractArchitectureComponent implements IChildArchitectureComponent,
+public final class TimComponent extends AbstractArchitectureComponent implements IChildArchitectureComponent,
 		Comparable<TimComponent>
 {
 	/*******************************************************

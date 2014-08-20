@@ -21,7 +21,7 @@ import java.util.Set;
  * 
  * @author Ahmed Fakhry
  *******************************************************/
-final class Goal extends AbstractParentArchComp implements IParentArchitectureComponent, Comparable<Goal>
+public final class Goal extends AbstractParentArchComp implements IParentArchitectureComponent, Comparable<Goal>
 {
 	/*******************************************************
 	 * Defines the behavior of Goals. 

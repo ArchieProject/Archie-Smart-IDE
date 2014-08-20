@@ -404,7 +404,39 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 	}
 
 	// --------------------------------
+	
+	/*******************************************************
+	 * @return The collection of goals in the system.
+	 *******************************************************/
+	public Collection<Goal> getGoals()
+	{
+		return mStorage.mGoals.values();
+	}
+	
+	/*******************************************************
+	 * @return The collection of sub goals in the system.
+	 *******************************************************/
+	public Collection<SubGoal> getSubGoals()
+	{
+		return mStorage.mSubGoals.values();
+	}
+	
+	/*******************************************************
+	 * @return The collection of tactics in the system.
+	 *******************************************************/
+	public Collection<Tactic> getTactics()
+	{
+		return mStorage.mTactics.values();
+	}
 
+	/*******************************************************
+	 * @return The collection of TIM components in the system.
+	 *******************************************************/
+	public Collection<TimComponent> getTimComponents()
+	{
+		return mStorage.mTimComponents.values();
+	}
+	
 	/*******************************************************
 	 * Serializes and saves the stored system architecture archie.hierarchy
 	 * components to the database.

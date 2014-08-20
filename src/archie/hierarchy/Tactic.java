@@ -21,7 +21,7 @@ import java.util.TreeSet;
  * 
  * @author Ahmed Fakhry
  *******************************************************/
-final class Tactic extends AbstractParentArchComp implements IChildArchitectureComponent, Comparable<Tactic>
+public final class Tactic extends AbstractParentArchComp implements IChildArchitectureComponent, Comparable<Tactic>
 {
 	/*******************************************************
 	 * Defines the behavior of tactics.

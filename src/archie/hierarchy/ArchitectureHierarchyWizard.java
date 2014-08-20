@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import archie.hierarchy.graph.HierarchyGraph;
 import archie.utils.EclipsePlatformUtils;
 import archie.views.autodetect.internals.SimpleImageRegistry;
 import archie.widgets.AddRemoveList;
@@ -248,8 +249,11 @@ public class ArchitectureHierarchyWizard
 				{
 					// Null or empty means add nothing
 					if (userInput == null || userInput.isEmpty())
+					{
+						EclipsePlatformUtils.showErrorMessage("Error", "You must type a unique name!");
 						return;
-
+					}
+					
 					// Validate that the input is a unique new input name
 					mAddCommand.add(userInput, mOwner);
 				}
@@ -547,6 +551,9 @@ public class ArchitectureHierarchyWizard
 							// Set hierarchy built in the
 							// manager.
 							ArchitectureComponentsManager.getInstance().setHierarchyBuilt();
+							
+							// Open the graph view
+							new HierarchyGraph();
 						}
 					};
 

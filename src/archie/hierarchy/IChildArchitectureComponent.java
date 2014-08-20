@@ -17,7 +17,7 @@ package archie.hierarchy;
  * 
  * For now, it's just a tagging interface.
  *******************************************************/
-interface IChildArchitectureComponent extends IArchitectureComponent
+public interface IChildArchitectureComponent extends IArchitectureComponent
 {
 
 }

@@ -12,6 +12,8 @@
 package archie.widgets;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
@@ -137,10 +139,7 @@ public final class Prompt
 			@Override
 			public void mouseDown(MouseEvent e)
 			{
-				// Send the result to the handler and dispose.
-				String userInput = mUserInput.getText();
-				mOkHandler.handle(userInput);
-				mShell.dispose();
+				handleOK();
 			}
 		});
 
@@ -154,5 +153,29 @@ public final class Prompt
 				mShell.dispose();
 			}
 		});
+		
+		// --- The enter key press handler ---
+		mUserInput.addKeyListener(new KeyAdapter()
+		{
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+				if(e.character == '\r')
+				{
+					handleOK();
+				}
+			}
+		});
+	}
+	
+	/*******************************************************
+	 * Handles the acceptance of the input in the prompt.
+	 *******************************************************/
+	private void handleOK()
+	{
+		// Send the result to the handler and dispose.
+		String userInput = mUserInput.getText();
+		mOkHandler.handle(userInput);
+		mShell.dispose();
 	}
 }
