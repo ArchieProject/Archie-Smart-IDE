@@ -22,7 +22,7 @@ abstract class AbstractArchitectureComponent implements IArchitectureComponent
 	 * For serialization
 	 *******************************************************/
 	private static final long serialVersionUID = -4210871295868931839L;
-	
+
 	/*******************************************************
 	 * The unique name of the goal.
 	 *******************************************************/
@@ -32,7 +32,7 @@ abstract class AbstractArchitectureComponent implements IArchitectureComponent
 	 * Constructs an abstract architecture component with the given name.
 	 * 
 	 * @param name
-	 * 			The unique name of the component. [Cannot be null or empty].
+	 *            The unique name of the component. [Cannot be null or empty].
 	 *******************************************************/
 	public AbstractArchitectureComponent(String name)
 	{
@@ -41,7 +41,7 @@ abstract class AbstractArchitectureComponent implements IArchitectureComponent
 
 		mName = name;
 	}
-	
+
 	/*******************************************************
 	 * 
 	 * @see archie.hierarchy.IArchitectureComponent#getName()
@@ -51,7 +51,7 @@ abstract class AbstractArchitectureComponent implements IArchitectureComponent
 	{
 		return mName;
 	}
-	
+
 	/*******************************************************
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
@@ -68,12 +68,12 @@ abstract class AbstractArchitectureComponent implements IArchitectureComponent
 		// Must the same class.
 		if (obj.getClass() != this.getClass())
 			return false;
-		
-		AbstractParentArchComp other = (AbstractParentArchComp) obj;
-		
+
+		AbstractArchitectureComponent other = (AbstractArchitectureComponent) obj;
+
 		return mName.equals(other.mName);
 	}
-	
+
 	/*******************************************************
 	 * 
 	 * @see java.lang.Object#hashCode()

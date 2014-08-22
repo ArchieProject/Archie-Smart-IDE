@@ -22,7 +22,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import archie.hierarchy.graph.HierarchyGraph;
 import archie.utils.EclipsePlatformUtils;
 import archie.views.autodetect.internals.SimpleImageRegistry;
 import archie.widgets.AddRemoveList;
@@ -40,6 +39,7 @@ public class ArchitectureHierarchyWizard
 	// Fields.
 	// ----------------------------------------
 
+	private final Runnable mOnFinish;
 	private Shell mShell;
 	private SimpleImageRegistry mImageRegistry;
 	private AddRemoveList mGoalsList;
@@ -51,8 +51,16 @@ public class ArchitectureHierarchyWizard
 	// Construction.
 	// ----------------------------------------
 
-	public ArchitectureHierarchyWizard()
+	/*******************************************************
+	 * Constructs and displays the Hierarchy Wizard editor.
+	 * 
+	 * @param onFinish
+	 * 			[Optional] The code to run on exit.
+	 *******************************************************/
+	public ArchitectureHierarchyWizard(Runnable onFinish)
 	{
+		mOnFinish = onFinish;
+		
 		// Initialize the shell.
 		mShell = new Shell(Display.getDefault(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		mShell.setLayout(new GridLayout(3, true));
@@ -552,8 +560,11 @@ public class ArchitectureHierarchyWizard
 							// manager.
 							ArchitectureComponentsManager.getInstance().setHierarchyBuilt();
 							
-							// Open the graph view
-							new HierarchyGraph();
+							// Run External on Finish
+							if(mOnFinish != null)
+							{
+								mOnFinish.run();
+							}
 						}
 					};
 

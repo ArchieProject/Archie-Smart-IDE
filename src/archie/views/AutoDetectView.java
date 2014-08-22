@@ -67,7 +67,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import archie.globals.ArchieSettings;
-import archie.hierarchy.ArchitectureHierarchyWizard;
+import archie.hierarchy.graph.HierarchyGraphViewer;
 import archie.model.Tim;
 import archie.monitoring.MonitoringManager;
 import archie.timstorage.LinkToTim;
@@ -1013,8 +1013,8 @@ public final class AutoDetectView extends ViewPart implements IArchieObserver
 			@Override
 			public void mouseDown(MouseEvent e)
 			{
-				// Open the architecture hierarchy wizard for now.
-				new ArchitectureHierarchyWizard();
+				// Open the Hierarchy Graph Viewer
+				new HierarchyGraphViewer();
 			}
 		});
 
