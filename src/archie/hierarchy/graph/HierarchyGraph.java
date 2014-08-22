@@ -73,6 +73,9 @@ public final class HierarchyGraph
 
 		// draw it.
 		drawGraph();
+		
+		// For testing purposes
+		new HierarchyGraphViewer();
 	}
 
 	/*******************************************************
