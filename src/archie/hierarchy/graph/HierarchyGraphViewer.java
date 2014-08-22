@@ -196,7 +196,8 @@ public final class HierarchyGraphViewer implements IArchieObserver
 
 		// The edit hierarchy button
 		mEditHierarchyButton = new Button(mToolBarComposite, SWT.NONE);
-		mEditHierarchyButton.setToolTipText("Edit the system's hierarchy relationships.");
+		mEditHierarchyButton.setText("Edit Hierarchy And (Re)Draw");
+		mEditHierarchyButton.setToolTipText("Edit the system's hierarchy relationships and draw/redraw the graph.");
 		mEditHierarchyButton.setImage(mImageRegistry.getImage("archIcon"));
 
 		// The picking button
@@ -354,7 +355,7 @@ public final class HierarchyGraphViewer implements IArchieObserver
 	}
 
 	/*******************************************************
-	 * Handles the run button
+	 * Handles the run button.
 	 *******************************************************/
 	private void run()
 	{
