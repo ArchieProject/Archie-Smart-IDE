@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -76,7 +77,7 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 			mTimComponents.clear();
 			mIsBuilt = false;
 		}
-		
+
 		/*******************************************************
 		 * Validates that the storage is actually built.
 		 *******************************************************/
@@ -91,7 +92,7 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 
 	// The storage instance
 	private ArchCompStorage mStorage;
-	
+
 	private Lock mUpdateLock = new ReentrantLock();
 
 	/*******************************************************
@@ -408,7 +409,7 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 	}
 
 	// --------------------------------
-	
+
 	/*******************************************************
 	 * @return The collection of goals in the system.
 	 *******************************************************/
@@ -416,7 +417,7 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 	{
 		return mStorage.mGoals.values();
 	}
-	
+
 	/*******************************************************
 	 * @return The collection of sub goals in the system.
 	 *******************************************************/
@@ -424,7 +425,7 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 	{
 		return mStorage.mSubGoals.values();
 	}
-	
+
 	/*******************************************************
 	 * @return The collection of tactics in the system.
 	 *******************************************************/
@@ -440,7 +441,7 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 	{
 		return mStorage.mTimComponents.values();
 	}
-	
+
 	/*******************************************************
 	 * Serializes and saves the stored system architecture archie.hierarchy
 	 * components to the database.
@@ -504,12 +505,12 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 		}
 
 		mStorage.validate();
-		
-		// Must add yourself as an observer of the TIMs manager.
-		TimsManager.getInstance().registerTimsObserver(this);
-		
+
 		// Get initial list.
 		notifyMeWithTimsChange();
+
+		// Must add yourself as an observer of the TIMs manager.
+		TimsManager.getInstance().registerTimsObserver(this);
 	}
 
 	/*******************************************************
@@ -533,35 +534,41 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 		// probably in closed projects, mark them as closed.
 
 		// Synchronize access here -----------------------
-		if(!mUpdateLock.tryLock())
+		if (!mUpdateLock.tryLock())
 			return;
-		
+
 		ArrayList<String> tims = TimsManager.getInstance().getAllNames();
 		HashSet<TimComponent> visited = new HashSet<TimComponent>();
-		
+
 		// Mark & Add phase:
-		for(String tim : tims)
+		for (String tim : tims)
 		{
 			// Do we already have it?
 			TimComponent timComp = mStorage.mTimComponents.get(tim);
-			if(timComp == null)
+			if (timComp == null)
 			{
 				// We don't, create it.
 				timComp = new TimComponent(tim);
 				// Add it.
 				mStorage.mTimComponents.put(tim, timComp);
 			}
-			
+
 			// We now mark it as visited.
 			visited.add(timComp);
 		}
-		
+
 		// Sweep phase:
 		Collection<TimComponent> timComps = mStorage.mTimComponents.values();
-		for(TimComponent timComp : timComps)
+		Iterator<TimComponent> iter = timComps.iterator();
+
+		// Must use an iterator since we might need to remove elements while
+		// iterating.
+		while (iter.hasNext())
 		{
+			TimComponent timComp = iter.next();
+
 			// Was it marked as visited?
-			if(visited.contains(timComp))
+			if (visited.contains(timComp))
 			{
 				// Yes, make sure that it's open
 				timComp.markOpen();
@@ -570,7 +577,7 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 			{
 				// No!
 				// Does it exist in the file system?
-				if(new File(timComp.getName()).exists())
+				if (new File(timComp.getName()).exists())
 				{
 					// Yes, mark it as closed
 					timComp.markClosed();
@@ -578,16 +585,15 @@ public final class ArchitectureComponentsManager implements IArchieObserver
 				else
 				{
 					// No, then remove it completely
-					mStorage.mTimComponents.remove(timComp.getName());
-					
+					iter.remove();
+
 					// Mark it as invalid and closed
 					timComp.markClosed();
 					timComp.markInvalid();
 				}
 			}
 		}
-		
-		
+
 		// Unlock ----------
 		mUpdateLock.unlock();
 	}

@@ -564,7 +564,7 @@ public final class HierarchyGraphViewer implements IArchieObserver
 				if (mGraphComposite != null && !mGraphComposite.isDisposed())
 				{
 					// Drawing the graph
-					mGraphLayout = new edu.uci.ics.jung.algorithms.layout.DAGLayout<IArchitectureVertex, Edge>(mGraph); // new
+					mGraphLayout = new edu.uci.ics.jung.algorithms.layout.FRLayout<IArchitectureVertex, Edge>(mGraph); // new
 																														// FRLayout<IArchitectureVertex,
 																														// Edge>(mGraph);
 
