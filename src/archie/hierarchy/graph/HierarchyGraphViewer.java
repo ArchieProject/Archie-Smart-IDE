@@ -59,6 +59,7 @@ import archie.views.autodetect.internals.IArchieObserver;
 import archie.views.autodetect.internals.JavaProjectsListener;
 import archie.views.autodetect.internals.ProgressUpdater;
 import archie.views.autodetect.internals.SimpleImageRegistry;
+import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
@@ -564,9 +565,8 @@ public final class HierarchyGraphViewer implements IArchieObserver
 				if (mGraphComposite != null && !mGraphComposite.isDisposed())
 				{
 					// Drawing the graph
-					mGraphLayout = new edu.uci.ics.jung.algorithms.layout.FRLayout<IArchitectureVertex, Edge>(mGraph); // new
-																														// FRLayout<IArchitectureVertex,
-																														// Edge>(mGraph);
+					// Layouts present at package: edu.uci.ics.jung.algorithms.layout.
+					mGraphLayout = new FRLayout<IArchitectureVertex, Edge>(mGraph); 
 
 					final Rectangle size = mGraphComposite.getClientArea();
 
@@ -578,17 +578,18 @@ public final class HierarchyGraphViewer implements IArchieObserver
 							new ToStringLabeller<IArchitectureVertex>());
 					mGraphViewer.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<Edge>());
 
+					// The vertices font.
 					mGraphViewer.getRenderContext().setVertexFontTransformer(
 							new Transformer<IArchitectureVertex, Font>()
 							{
-
 								@Override
 								public Font transform(IArchitectureVertex arg0)
 								{
-									return new Font("Monospaced", Font.BOLD, 12);
+									return new Font("Arial", Font.BOLD, 14);
 								}
 							});
 
+					// The vertices shape.
 					mGraphViewer.getRenderContext().setVertexShapeTransformer(
 							new Transformer<IArchitectureVertex, Shape>()
 							{
@@ -599,6 +600,7 @@ public final class HierarchyGraphViewer implements IArchieObserver
 								}
 							});
 
+					// The vertices color.
 					mGraphViewer.getRenderContext().setVertexFillPaintTransformer(
 							new Transformer<IArchitectureVertex, Paint>()
 							{
