@@ -38,7 +38,7 @@ class JavaModelModifiedHandler implements IElementChangedListener
 	{
 		if (singleton == null)
 		{
-			synchronized (DebugCodeModifiedHandler.class)
+			synchronized (JavaModelModifiedHandler.class)
 			{
 				if (singleton == null)
 					singleton = new JavaModelModifiedHandler();
