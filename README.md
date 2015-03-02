@@ -1,4 +1,2 @@
-Archie-Smart-IDE
+Smart-IDE
 ================
-
-Detect and Monitor Architecturally Significant Code Snippets
